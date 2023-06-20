@@ -7,14 +7,7 @@ const Home=()=>{
 
     return(
 
-        // <div className="home-page">
-            <Grid templateColumns='1fr 3fr 1fr'>
-                        <GridItem> <NavBar/> </GridItem>
-
-                {/* <GridItem bg='purple.400'>  </GridItem>
-                <GridItem >  </GridItem> */}
-            </Grid>
-        // </div>
+    <div>Home</div>
     )
 }
 

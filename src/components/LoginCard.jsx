@@ -17,6 +17,7 @@ import { Link as ReachLink } from 'react-router-dom';
 export const LoginCard = () => {
   return (
     <Flex
+      minH='100dvh'
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}
@@ -66,7 +67,7 @@ export const LoginCard = () => {
             <Stack>
               <Text align={'center'}>
                 New User?{" "} 
-                <Link color={'blue.400'} as={ReachLink} to="/">
+                <Link color={'blue.400'} as={ReachLink} to="/signup">
                   Signup
                 </Link>
               </Text>

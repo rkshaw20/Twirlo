@@ -1,13 +1,13 @@
 import { SignUpCard } from "../components/SignUpCard"
 
 
-const LandingPage=()=>{
+const SignUp=()=>{
     return (
-        <div className="landing-page">
+        <>
             <SignUpCard/>
             
-        </div>
+        </>
     )
 }
 
-export default LandingPage;
+export default SignUp;

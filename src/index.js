@@ -11,10 +11,10 @@ const root = ReactDOM.createRoot(container);
 
 root.render(
   <StrictMode>
-    <BrowserRouter>
+    {/* <BrowserRouter> */}
     <ColorModeScript />
     <App />
-    </BrowserRouter>
+    {/* </BrowserRouter> */}
   </StrictMode>
 );
 

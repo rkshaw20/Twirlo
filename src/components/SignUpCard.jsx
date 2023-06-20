@@ -25,18 +25,16 @@ export const SignUpCard = () => {
   return (
     <div className="signup-card">
  <Flex
+      minH='100dvh'
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}
     >
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
-          <Heading fontSize={'3xl'} textAlign={'center'}>
-            Sign up
+          <Heading color='blue.400' fontSize={'3xl'} textAlign={'center'}>
+            Create your account 
           </Heading>
-          {/* <Text fontSize={'lg'} color={'gray.600'}>
-            to enjoy all of our cool features ✌️
-          </Text> */}
         </Stack>
         <Box
           rounded={'lg'}
