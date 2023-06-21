@@ -85,14 +85,21 @@ export const NavBar = () => {
             </Link>
           </Flex>
 
-          <Flex display={{ base: 'block', lg: 'none' }} alignItems="center">
+          <Flex
+            display={{ base: 'block', lg: 'none' }}
+            // alignItems="center"
+            // justifyItems="center"
+          >
             <IconButton
               rounded="3xl"
               // colorScheme="teal"
               size="lg"
-              bg="blue.400"
-              // color="blue.400"
-              icon={<AiFillPlusCircle fontSize="2rem" />}
+              // bg="blue.400"
+
+              color="blue.400"
+              variant="ghost"
+              mb='-10'
+              icon={<AiFillPlusCircle fontSize="3rem" />}
             />
           </Flex>
 
@@ -165,10 +172,10 @@ export const NavBar = () => {
           cursor="pointer"
         >
           <Flex
-            rounded="3xl"
+            rounded="2rem"
             _hover={{ bg: bgColor }}
             p={{ base: '', lg: '.5rem' }}
-            
+            border='1px solid gray'
           >
             <Avatar
               size={{ base: 'md', lg: 'md' }}

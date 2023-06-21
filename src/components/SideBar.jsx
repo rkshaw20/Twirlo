@@ -58,7 +58,7 @@ const users = [
 
 const SideBar = () => {
   return (
-    <Flex border="2px solid red" height="full" p={3} direction="column">
+    <Flex height="full" p={3} direction="column">
       <Heading size="md">Who to Follow</Heading>
       <Stack mt={4}>
         <Flex direction='column'  >

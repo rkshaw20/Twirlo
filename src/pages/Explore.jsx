@@ -1,8 +1,18 @@
+import { Heading } from "@chakra-ui/react";
+import PostCard from "../components/PostCard";
+
 const Explore=()=>{
     return (
         <>
-        <h1>Explore</h1>
-        </>
+          <Heading size='lg'>Explore</Heading>
+
+        <PostCard/>
+        <PostCard/>
+        <PostCard/>
+        <PostCard/>
+        <PostCard/>
+        <PostCard/>
+        </>        
     )
 }
 

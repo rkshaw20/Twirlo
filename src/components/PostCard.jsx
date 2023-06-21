@@ -10,6 +10,10 @@ import {
   Heading,
   IconButton,
   Image,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Text,
   chakra,
   color,
@@ -17,6 +21,8 @@ import {
 import { BsThreeDotsVertical, BsBookmark } from 'react-icons/bs';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { BiShareAlt } from 'react-icons/bi';
+import { FiEdit } from 'react-icons/fi';
+import { AiFillDelete } from 'react-icons/ai';
 
 const post = [
   {
@@ -42,7 +48,7 @@ const post = [
 ];
 
 const PostCard = () => {
-    const HoverableIcon = chakra(AiOutlineHeart);
+  const HoverableIcon = chakra(AiOutlineHeart);
 
   return (
     <Card p="1rem" m="2rem" maxH="600px">
@@ -65,12 +71,24 @@ const PostCard = () => {
               Dec 20,2022
             </Text>
           </Flex>
-          <IconButton
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              aria-label="Options"
+              icon={<BsThreeDotsVertical />}
+              variant="ghost"
+            />
+            <MenuList>
+              <MenuItem icon={<FiEdit/>}>Edit </MenuItem>
+              <MenuItem  icon={<AiFillDelete/>} >Delete</MenuItem>
+            </MenuList>
+          </Menu>
+          {/* <IconButton
             variant="ghost"
             colorScheme="gray"
             aria-label="See menu"
             icon={<BsThreeDotsVertical />}
-          />
+          /> */}
         </Flex>
       </CardHeader>
       <CardBody mt="-6">
@@ -81,7 +99,7 @@ const PostCard = () => {
         </Text>
       </CardBody>
 
-      <Image
+      {/* <Image
         ml="1.2rem"
         mr="1.2rem"
         rounded="2xl"
@@ -90,15 +108,18 @@ const PostCard = () => {
         maxW={{ base: '', lg: '600px' }}
         src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
         alt="Chakra UI"
-      />
+      /> */}
       <CardFooter justify="space-between" flexWrap="wrap">
-       
-          {/* <HoverableIcon  _hover={{ color: 'red.500' }}/>
+        {/* <HoverableIcon  _hover={{ color: 'red.500' }}/>
           <HoverableIcon  _hover={{ color: 'red.500' }}/>
           <HoverableIcon  _hover={{ color: 'red.500' }}/> */}
-        <IconButton p='1rem' variant="ghost" icon={<AiOutlineHeart />}></IconButton>
-        <IconButton p='1rem' variant="ghost" icon={<BsBookmark />}></IconButton>
-        <IconButton p='1rem' variant="ghost" icon={<BiShareAlt />}></IconButton>
+        <IconButton
+          p="1rem"
+          variant="ghost"
+          icon={<AiOutlineHeart />}
+        ></IconButton>
+        <IconButton p="1rem" variant="ghost" icon={<BsBookmark />}></IconButton>
+        <IconButton p="1rem" variant="ghost" icon={<BiShareAlt />}></IconButton>
       </CardFooter>
     </Card>
   );
