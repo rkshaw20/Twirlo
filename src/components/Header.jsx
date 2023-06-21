@@ -8,15 +8,16 @@ import {
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import { FaTwitter } from 'react-icons/fa';
+import { AiOutlineTwitter } from 'react-icons/ai';
 
 export const Header = () => {
   return (
     // <div className="header">
       <Box>
-        <Flex p={'.4rem'} justifyContent={'space-between'}>
-          <IconButton fontSize={'xl'} color={'blue.400'} icon={<FaTwitter />} />
+        <Flex p={{ base:'.2rem'  ,lg:'.4rem'}} justifyContent={{base:'space-between' ,lg:'space-between'}}>
+          <IconButton  fontSize={'xl'} color={'blue.400'} icon={<AiOutlineTwitter />} />
           <Heading color={'blue.400'}>Twirlo</Heading>
-          <ColorModeSwitcher justifySelf="flex-end" />
+          <ColorModeSwitcher  />
         </Flex>
 
         <hr />

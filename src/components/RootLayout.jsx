@@ -2,12 +2,12 @@ import { Grid, GridItem, useColorModeValue } from '@chakra-ui/react';
 import { Header } from './Header';
 import { NavBar } from './NavBar';
 import { Outlet } from 'react-router-dom';
+import SideBar from './SideBar';
 
 const RootLayout = () => {
   return (
     <Grid
-    bg={useColorModeValue('gray.50', 'gray.800')}
-
+      bg={useColorModeValue('gray.50', 'gray.800')}
       minH="100dvh"
       templateColumns={{ base: 'auto 1fr', lg: '1fr 3fr 1fr' }} // understand
       templateRows={{
@@ -22,17 +22,17 @@ const RootLayout = () => {
                     "nav main aside"`,
       }}
     >
-      <GridItem as={'header'} area="header" pos="sticky" top="0">
+      <GridItem as={'header'} area="header"  top="0">
         <Header />
       </GridItem>
-      <GridItem>
+      <GridItem as={'nav'} area="nav">
         <NavBar />
       </GridItem>
       <GridItem
         scrollBehavior="smooth"
         as={'main'}
         area={'main'}
-        // overflowY="scroll"
+        overflowY="scroll"
       >
         <Outlet />
       </GridItem>
@@ -41,7 +41,7 @@ const RootLayout = () => {
         area={'aside'}
         display={{ base: 'none', lg: 'block' }}
       >
-        <NavBar/>
+        <SideBar />
       </GridItem>
     </Grid>
   );
