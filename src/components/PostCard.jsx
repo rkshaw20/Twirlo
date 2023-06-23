@@ -51,7 +51,7 @@ const PostCard = () => {
   const HoverableIcon = chakra(AiOutlineHeart);
 
   return (
-    <Card p="1rem" m="2rem" maxH="600px">
+    <Card p="1rem" mb={3} maxH="600px">
       <CardHeader>
         <Flex spacing="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -79,8 +79,8 @@ const PostCard = () => {
               variant="ghost"
             />
             <MenuList>
-              <MenuItem icon={<FiEdit/>}>Edit </MenuItem>
-              <MenuItem  icon={<AiFillDelete/>} >Delete</MenuItem>
+              <MenuItem icon={<FiEdit />}>Edit </MenuItem>
+              <MenuItem icon={<AiFillDelete />}>Delete</MenuItem>
             </MenuList>
           </Menu>
           {/* <IconButton
@@ -113,12 +113,20 @@ const PostCard = () => {
         {/* <HoverableIcon  _hover={{ color: 'red.500' }}/>
           <HoverableIcon  _hover={{ color: 'red.500' }}/>
           <HoverableIcon  _hover={{ color: 'red.500' }}/> */}
-        <IconButton
-          p="1rem"
-          variant="ghost"
-          icon={<AiOutlineHeart />}
-        ></IconButton>
-        <IconButton p="1rem" variant="ghost" icon={<BsBookmark />}></IconButton>
+        <Flex>
+          {' '}
+          <IconButton
+            p="1rem"
+            variant="ghost"
+            icon={<AiOutlineHeart />}
+          ></IconButton>
+          <IconButton
+            p="1rem"
+            variant="ghost"
+            icon={<BsBookmark />}
+          ></IconButton>{' '}
+        </Flex>
+
         <IconButton p="1rem" variant="ghost" icon={<BiShareAlt />}></IconButton>
       </CardFooter>
     </Card>
