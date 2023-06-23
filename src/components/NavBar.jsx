@@ -8,12 +8,21 @@ import {
   Icon,
   IconButton,
   Link,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
   Stack,
   Text,
   color,
   useBreakpointValue,
   useColorMode,
   useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { Link as ReachLink } from 'react-router-dom';
 import { Flex, Spacer } from '@chakra-ui/react';
@@ -21,8 +30,10 @@ import { AiFillHome, AiFillPlusCircle } from 'react-icons/ai';
 import { MdExplore } from 'react-icons/md';
 import { BsFillBookmarkFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
+import TweetModal from './TweetModal';
 
 export const NavBar = () => {
+  const { onOpen, isOpen, onClose } = useDisclosure();
   const bgColor = useColorModeValue('gray.300', 'gray.600');
   const flexDirection = useBreakpointValue({ base: 'row', lg: 'column' });
 
@@ -31,13 +42,15 @@ export const NavBar = () => {
       <Flex
         height="full"
         flexDir={flexDirection}
-        justify={{ base: 'center', lg: 'space-between' }}
+        justify="space-between"
         p={{ base: '', lg: '1rem' }}
       >
-        <Stack
+        <Flex
+          height="full"
           spacing={3}
           p={{ base: '.2rem', lg: '1rem' }}
           flexDir={flexDirection}
+          justifyContent={{ base: 'space-between', lg: 'flex-start' }}
         >
           <Flex alignItems="center">
             <Link
@@ -85,22 +98,32 @@ export const NavBar = () => {
             </Link>
           </Flex>
 
-          <Flex
-            display={{ base: 'block', lg: 'none' }}
-            // alignItems="center"
-            // justifyItems="center"
-          >
+          <Flex order={{ base: '', lg: '5' }} p=".6rem 0">
             <IconButton
+              display={{ base: 'block', lg: 'none' }}
               rounded="3xl"
-              // colorScheme="teal"
               size="lg"
-              // bg="blue.400"
-
               color="blue.400"
               variant="ghost"
-              mb='-10'
+              mb="-10"
               icon={<AiFillPlusCircle fontSize="3rem" />}
+              onClick={onOpen}
             />
+            <Button
+              display={{ base: 'none', lg: 'block' }}
+              rounded="3xl"
+              size="lg"
+              width="200px"
+              bg={'blue.400'}
+              color={'white'}
+              _hover={{
+                bg: 'blue.500',
+              }}
+              onClick={onOpen}
+            >
+              <Text>Tweet</Text>
+            </Button>
+            <TweetModal isOpen={isOpen} onClose={onClose} />
           </Flex>
 
           <Flex alignItems="center">
@@ -108,7 +131,6 @@ export const NavBar = () => {
               as={ReachLink}
               to="/bookmark"
               display="inline-flex"
-              // justifyContent='center'
               alignItems="center"
               _hover={{ backgroundColor: bgColor }}
               rounded="3xl"
@@ -131,7 +153,6 @@ export const NavBar = () => {
               as={ReachLink}
               to="/profile"
               display="inline-flex"
-              // justifyContent='center'
               alignItems="center"
               _hover={{ backgroundColor: bgColor }}
               rounded="3xl"
@@ -148,34 +169,15 @@ export const NavBar = () => {
               </Text>
             </Link>
           </Flex>
-        </Stack>
 
-        <Stack pt={5} p="1rem" display={{ base: 'none', lg: 'block' }}>
-          <Button
-            rounded="3xl"
-            size="lg"
-            width="200px"
-            bg={'blue.400'}
-            color={'white'}
-            _hover={{
-              bg: 'blue.500',
-            }}
-          >
-            Tweet
-          </Button>
-        </Stack>
-        {/* <Spacer /> */}
-        <Stack
-          pt={5}
-          p={{ base: '.5rem', lg: '1rem' }}
-          width={{ base: '', lg: '250px' }}
-          cursor="pointer"
-        >
           <Flex
+            display={{ base: 'block', lg: 'none' }}
             rounded="2rem"
-            _hover={{ bg: bgColor }}
             p={{ base: '', lg: '.5rem' }}
-            border='1px solid gray'
+            pt={3}
+            width={{ base: '', lg: '250px' }}
+            cursor="pointer"
+            order="6"
           >
             <Avatar
               size={{ base: 'md', lg: 'md' }}
@@ -186,6 +188,57 @@ export const NavBar = () => {
               <Text fontSize="sm">@RajKishorShaw17</Text>
             </Box>
           </Flex>
+        </Flex>
+
+        <Stack
+          display={{ base: 'none', lg: 'block' }}
+          pt={5}
+          p={{ base: '.5rem', lg: '1rem' }}
+          width={{ base: '', lg: '250px' }}
+          cursor="pointer"
+        >
+          {/* <Flex
+            rounded="2rem"
+            _hover={{ bg: bgColor }}
+            p={{ base: '', lg: '.5rem' }}
+            border="1px solid gray"
+          >
+         
+            
+            <Avatar
+              size={{ base: 'md', lg: 'md' }}
+              src="https://res.cloudinary.com/dn5zs5sqx/image/upload/v1687185484/FhNGqSr__400x400_fnkcno.jpg"
+            />
+            <Box ml="3" display={{ base: 'none', lg: 'block' }}>
+              <Text fontWeight="bold">Raj</Text>
+              <Text fontSize="sm">@RajKishorShaw17</Text>
+            </Box> 
+          </Flex>
+            */}
+          <Menu isLazy>
+            <MenuButton>
+              <Flex
+                rounded="2rem"
+                _hover={{ bg: bgColor }}
+                p={{ base: '', lg: '.5rem' }}
+                border="1px solid gray"
+              >
+                <Avatar
+                  size={{ base: 'md', lg: 'md' }}
+                  src="https://res.cloudinary.com/dn5zs5sqx/image/upload/v1687185484/FhNGqSr__400x400_fnkcno.jpg"
+                />
+                <Box ml="3">
+                  <Text fontWeight="bold">Raj</Text>
+                  <Text fontSize="sm">@RajKishorShaw17</Text>
+                </Box>
+              </Flex>
+            </MenuButton>
+            <MenuList placement="top-start">
+              {/* MenuItems are not rendered unless Menu is open */}
+              <MenuItem>Profile</MenuItem>
+              <MenuItem>Logout</MenuItem>
+            </MenuList>
+          </Menu>
         </Stack>
       </Flex>
     </>
