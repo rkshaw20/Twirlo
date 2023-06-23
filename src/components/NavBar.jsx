@@ -1,9 +1,7 @@
 import {
   Avatar,
-  Badge,
   Box,
   Button,
-  Center,
   Divider,
   Icon,
   IconButton,
@@ -12,10 +10,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Popover,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
+
   Stack,
   Text,
   color,
