@@ -4,17 +4,20 @@ import * as ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter } from 'react-router-dom';
+import AuthContextProvider from './contexts/AuthContextProvider';
+import DataContextProvider from './contexts/DataContextProvider';
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
 root.render(
   <StrictMode>
-    {/* <BrowserRouter> */}
-    <ColorModeScript />
-    <App />
-    {/* </BrowserRouter> */}
+    <AuthContextProvider>
+      <DataContextProvider>
+      <ColorModeScript />
+      <App />
+      </DataContextProvider>
+    </AuthContextProvider>
   </StrictMode>
 );
 

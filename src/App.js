@@ -1,11 +1,7 @@
 import React from 'react';
-import {
-  ChakraProvider,
+import { ChakraProvider, theme } from '@chakra-ui/react';
 
-  theme,
-} from '@chakra-ui/react';
-
-import {  RouterProvider,  createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import RootLayout from './components/RootLayout';
 import Login from './pages/Login';
@@ -14,9 +10,7 @@ import Explore from './pages/Explore';
 import Bookmark from './pages/Bookmark';
 import UserProfile from './pages/UserProfile';
 import PostDetails from './pages/PostDetails';
-
-
-
+import { RequireAuth } from './components/RequireAuth';
 
 const router = createBrowserRouter([
   {
@@ -29,7 +23,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <RootLayout />,
+    element: (
+      <RequireAuth>
+        <RootLayout />
+      </RequireAuth>
+    ),
     children: [
       { index: true, element: <Home /> },
       { path: '/post', element: <PostDetails /> },
@@ -40,14 +38,12 @@ const router = createBrowserRouter([
   },
 ]);
 
-
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     </ChakraProvider>
   );
 }
-
 
 export default App;
