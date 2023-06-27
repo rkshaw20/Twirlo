@@ -42,12 +42,13 @@ export const NavBar = () => {
       >
         <Flex
           height="full"
+          w='full'
           spacing={3}
           p={{ base: '.2rem', lg: '1rem' }}
           flexDir={flexDirection}
           justifyContent={{ base: 'space-between', lg: 'flex-start' }}
         >
-          <Flex alignItems="center">
+          <Flex alignItems="center"  justifyContent='space-between'>
             <Link
               as={ReachLink}
               to="/"
