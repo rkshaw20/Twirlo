@@ -11,8 +11,9 @@ const Home = () => {
   if (!user && !allPost) {
     return;
   }
+//   const getFollowing = user => user.following.map(({ _id }) => _id);
 
-  const followingUserId = getFollowing(user);
+  const followingUserId = user.following.map(({ _id }) => _id);
 
   const userAndFollwingUserId = [...followingUserId, user._id];
 

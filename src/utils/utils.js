@@ -29,4 +29,3 @@ export const getHumanizeTimeForOlderPost = (currentDate, date) => {
   }
 };
 
-export const getFollowing = user => user.following.map(({ _id }) => _id);
