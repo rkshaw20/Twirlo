@@ -19,8 +19,8 @@ const AuthContextProvider =({children})=>{
       try {
         const decodedToken = jwtDecode(token);
         const userData = await getSingleUserDetail(token, decodedToken._id);
-        setLocalStorage('user',userData);
-        setUser(userData)
+        setLocalStorage('user',userData.user);
+        // setUser(userData)
       } catch (error) {
         console.log(error);
       }
@@ -28,8 +28,6 @@ const AuthContextProvider =({children})=>{
     fetchData();
   }, [token]);
   
-        
-
 
   return (
     <AuthContext.Provider value={{user, setUser, token, setToken}} >

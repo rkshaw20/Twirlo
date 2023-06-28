@@ -1,0 +1,4 @@
+export const TYPE={
+    GET_ALL_POST:'GET_ALL_POST',
+    GET_ALL_POST_OF_USER:'GET_ALL_POST_OF_USER',
+}

@@ -5,12 +5,7 @@ const Bookmark = () => {
   return (
     <>
        <Heading size='lg'>Bookmark</Heading>
-      <PostCard />
-      <PostCard />
-      <PostCard />
-      <PostCard />
-      <PostCard />
-      <PostCard />
+      
     </>
   );
 };

@@ -61,7 +61,7 @@ const SignUp = () => {
         email,
         password,
       });
-      console.log(response);
+      // console.log(response);
       const { token } = await loginService({ email, password });
       setLocalStorage('token', token);
       setToken(token);

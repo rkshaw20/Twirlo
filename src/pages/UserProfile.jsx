@@ -12,9 +12,20 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import PostCard from '../components/PostCard';
+import { useAuthContext } from '../contexts/AuthContextProvider';
+import { useDataContext } from '../contexts/DataContextProvider';
+import { getAllPostOfUser } from '../services/DataServices';
+import { useEffect } from 'react';
 
 const UserProfile = () => {
   const bgColor = useColorModeValue('gray.300', 'gray.600');
+
+  const {user,token}=useAuthContext();
+  const {dispatch,setLoader,userAllPost}=useDataContext();
+
+  
+  
+ 
 
   return (
     <Flex flexDir="column" gap={2} p={2}>
@@ -22,16 +33,16 @@ const UserProfile = () => {
         <Flex w="full" p={{ base: '', lg: '.5rem' }} justify="space-between">
           <Avatar
             size={{ base: 'xl', lg: '2xl' }}
-            src="https://res.cloudinary.com/dn5zs5sqx/image/upload/v1687185484/FhNGqSr__400x400_fnkcno.jpg"
+            src={user.pic}
           />
           <Button bgColor={bgColor}>Edit Profile</Button>
         </Flex>
         <Flex flexDir="column" gap={1} p={1}>
           <Box ml="3">
             <Text fontWeight="bold" fontSize="lg">
-              Raj
+            {user.firstName}
             </Text>
-            <Text fontSize="sm">@RajKishorShaw17</Text>
+            <Text fontSize="sm">@{user.username}</Text>
           </Box>
           <Box ml="3">
             <Text fontWeight="bold">
@@ -67,18 +78,16 @@ const UserProfile = () => {
           <TabPanels>
             <TabPanel>
                  {/* remove this after  */}
-              <PostCard />
-              <PostCard />
-              <PostCard />
-              <PostCard />
-              <PostCard />
-              <PostCard />
+            {(userAllPost.length) && (userAllPost.map((post)=>(
+              <PostCard key={post._id} post={post} />) 
+            )) }
+              
             </TabPanel>
             <TabPanel>
-              <p>Likes</p>
+              {/* <p>Likes</p> */}
             </TabPanel>
             <TabPanel>
-              <p>three!</p>
+              {/* <p>three!</p> */}
             </TabPanel>
           </TabPanels>
         </Tabs>
