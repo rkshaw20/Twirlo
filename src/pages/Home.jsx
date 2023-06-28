@@ -8,10 +8,8 @@ const Home = () => {
   const { token, user } = useAuthContext();
   const { allPost, dispatch, setLoader } = useDataContext();
 
-  if (!user && !allPost) {
-    return;
-  }
-//   const getFollowing = user => user.following.map(({ _id }) => _id);
+  console.log(user, 'before')
+  if (!user) return;
 
   const followingUserId = user.following.map(({ _id }) => _id);
 

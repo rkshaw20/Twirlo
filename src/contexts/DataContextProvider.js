@@ -24,15 +24,15 @@ const DataContextProvider = ({ children }) => {
   const { token, user } = useAuthContext();
   const [loader, setLoader] = useState(false);
 
-
   
   useEffect(() => {
     if (token && user) {
       getAllPost(token, dispatch, setLoader);
       getAllPostOfUser(token, user._id, dispatch, setLoader);
     }
-  }, [token, user]);
+  }, [token,user]);
 
+  
 
   return (
     <DataContext.Provider
