@@ -10,7 +10,6 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-
   Stack,
   Text,
   color,
@@ -26,11 +25,21 @@ import { MdExplore } from 'react-icons/md';
 import { BsFillBookmarkFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import TweetModal from './TweetModal';
+import { removeLocalStorage } from '../utils/utils';
+import { useAuthContext } from '../contexts/AuthContextProvider';
 
 export const NavBar = () => {
+  const { setUser, setToken } = useAuthContext();
   const { onOpen, isOpen, onClose } = useDisclosure();
   const bgColor = useColorModeValue('gray.300', 'gray.600');
   const flexDirection = useBreakpointValue({ base: 'row', lg: 'column' });
+
+  const handleLogout = () => {
+    removeLocalStorage('token');
+    removeLocalStorage('user');
+    setUser(null);
+    setToken(null);
+  };
 
   return (
     <>
@@ -42,13 +51,13 @@ export const NavBar = () => {
       >
         <Flex
           height="full"
-          w='full'
+          w="full"
           spacing={3}
           p={{ base: '.2rem', lg: '1rem' }}
           flexDir={flexDirection}
           justifyContent={{ base: 'space-between', lg: 'flex-start' }}
         >
-          <Flex alignItems="center"  justifyContent='space-between'>
+          <Flex alignItems="center" justifyContent="space-between">
             <Link
               as={ReachLink}
               to="/"
@@ -179,10 +188,6 @@ export const NavBar = () => {
               size={{ base: 'md', lg: 'md' }}
               src="https://res.cloudinary.com/dn5zs5sqx/image/upload/v1687185484/FhNGqSr__400x400_fnkcno.jpg"
             />
-            <Box ml="3" display={{ base: 'none', lg: 'block' }}>
-              <Text fontWeight="bold">Raj</Text>
-              <Text fontSize="sm">@RajKishorShaw17</Text>
-            </Box>
           </Flex>
         </Flex>
 
@@ -193,24 +198,7 @@ export const NavBar = () => {
           width={{ base: '', lg: '250px' }}
           cursor="pointer"
         >
-          {/* <Flex
-            rounded="2rem"
-            _hover={{ bg: bgColor }}
-            p={{ base: '', lg: '.5rem' }}
-            border="1px solid gray"
-          >
-         
-            
-            <Avatar
-              size={{ base: 'md', lg: 'md' }}
-              src="https://res.cloudinary.com/dn5zs5sqx/image/upload/v1687185484/FhNGqSr__400x400_fnkcno.jpg"
-            />
-            <Box ml="3" display={{ base: 'none', lg: 'block' }}>
-              <Text fontWeight="bold">Raj</Text>
-              <Text fontSize="sm">@RajKishorShaw17</Text>
-            </Box> 
-          </Flex>
-            */}
+        
           <Menu isLazy>
             <MenuButton>
               <Flex
@@ -231,8 +219,8 @@ export const NavBar = () => {
             </MenuButton>
             <MenuList placement="top-start">
               {/* MenuItems are not rendered unless Menu is open */}
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Logout</MenuItem>
+              {/* <MenuItem>Profile</MenuItem> */}
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </MenuList>
           </Menu>
         </Stack>
