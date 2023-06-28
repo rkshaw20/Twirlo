@@ -10,6 +10,10 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
   Stack,
   Text,
   color,
@@ -179,15 +183,28 @@ export const NavBar = () => {
             display={{ base: 'block', lg: 'none' }}
             rounded="2rem"
             p={{ base: '', lg: '.5rem' }}
-            pt={3}
+            pt={2}
             width={{ base: '', lg: '250px' }}
             cursor="pointer"
             order="6"
           >
-            <Avatar
-              size={{ base: 'md', lg: 'md' }}
-              src="https://res.cloudinary.com/dn5zs5sqx/image/upload/v1687185484/FhNGqSr__400x400_fnkcno.jpg"
-            />
+            <Popover>
+              <PopoverTrigger>
+                <Button h="60px" w="60px" rounded="full">
+                  <Avatar
+                    size={{ base: 'md', lg: 'md' }}
+                    src="https://res.cloudinary.com/dn5zs5sqx/image/upload/v1687185484/FhNGqSr__400x400_fnkcno.jpg"
+                  />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent height="70px" w="100px" mr={2}>
+                <PopoverBody>
+                  <Box> <Link as={ReachLink} to='/profile' >Profile</Link> </Box>
+                  <Divider />
+                  <Box onClick={handleLogout} >Logout</Box>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
           </Flex>
         </Flex>
 
@@ -198,7 +215,6 @@ export const NavBar = () => {
           width={{ base: '', lg: '250px' }}
           cursor="pointer"
         >
-        
           <Menu isLazy>
             <MenuButton>
               <Flex
