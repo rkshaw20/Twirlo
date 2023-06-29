@@ -3,6 +3,7 @@ import { TYPE } from '../utils/constants';
 export const dataInitialState = {
   allPost: [],
   userAllPost: [],
+  bookmarks:[],
 };
 
 export const dataReducer = (state, action) => {
@@ -17,6 +18,12 @@ export const dataReducer = (state, action) => {
       return {
         ...state,
         allPost: [...action.payload],
+      };
+    }
+    case TYPE.GET_BOOKMARKS: {
+      return {
+        ...state,
+        bookmarks: [...action.payload],
       };
     }
 

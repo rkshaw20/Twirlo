@@ -8,7 +8,6 @@ const Home = () => {
   const { token, user } = useAuthContext();
   const { allPost, dispatch, setLoader } = useDataContext();
 
-  console.log(user, 'before')
   if (!user) return;
 
   const followingUserId = user.following.map(({ _id }) => _id);
@@ -18,7 +17,7 @@ const Home = () => {
   const homePagePosts = allPost.filter(({ author: { _id } }) =>
     userAndFollwingUserId.includes(_id)
   );
-
+  
   return (
     <>
       <Heading>Home</Heading>

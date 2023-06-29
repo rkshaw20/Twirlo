@@ -12,6 +12,7 @@ import { dataInitialState, dataReducer } from '../reducers/DataReducer';
 const DataContext = createContext({
   allPost: [],
   userAllPost: [],
+  bookmarks:[],
   loader: '',
   dispatch: () => {},
   setLoader: () => {},
@@ -39,6 +40,7 @@ const DataContextProvider = ({ children }) => {
       value={{
         userAllPost: state.userAllPost,
         allPost: state.allPost,
+        bookmarks:state.bookmarks,
         dispatch,
         loader,
         setLoader,

@@ -20,27 +20,20 @@ import { useEffect } from 'react';
 const UserProfile = () => {
   const bgColor = useColorModeValue('gray.300', 'gray.600');
 
-  const {user,token}=useAuthContext();
-  const {dispatch,setLoader,userAllPost}=useDataContext();
-
-  
-  
- 
+  const { user, token } = useAuthContext();
+  const { dispatch, setLoader, userAllPost } = useDataContext();
 
   return (
     <Flex flexDir="column" gap={2} p={2}>
       <Flex flexDir="column">
         <Flex w="full" p={{ base: '', lg: '.5rem' }} justify="space-between">
-          <Avatar
-            size={{ base: 'xl', lg: '2xl' }}
-            src={user.pic}
-          />
+          <Avatar size={{ base: 'xl', lg: '2xl' }} src={user.pic} />
           <Button bgColor={bgColor}>Edit Profile</Button>
         </Flex>
         <Flex flexDir="column" gap={1} p={1}>
           <Box ml="3">
             <Text fontWeight="bold" fontSize="lg">
-            {user.firstName}
+              {user.firstName}
             </Text>
             <Text fontSize="sm">@{user.username}</Text>
           </Box>
@@ -51,15 +44,15 @@ const UserProfile = () => {
             </Text>
           </Box>
           <Box ml="3">
-            <Flex gap={5}>
-              {' '}
-              <Text>
-                {' '}
-                <Text fontWeight="bold">366</Text> Following
-              </Text>{' '}
-              <Text>
-                <Text fontWeight="bold">700</Text> Followers
-              </Text>{' '}
+            <Flex gap={8}>
+              <Flex gap={2} >
+                <Text fontWeight="bold">366</Text>
+                <Text>Following</Text>
+              </Flex>
+              <Flex gap={2} >
+                <Text fontWeight="bold">700</Text>
+                <Text>Followers</Text>
+              </Flex>
             </Flex>
           </Box>
         </Flex>
@@ -77,18 +70,13 @@ const UserProfile = () => {
 
           <TabPanels>
             <TabPanel>
-                 {/* remove this after  */}
-            {(userAllPost.length) && (userAllPost.map((post)=>(
-              <PostCard key={post._id} post={post} />) 
-            )) }
-              
+              {userAllPost.length &&
+                userAllPost.map(post => (
+                  <PostCard key={post._id} post={post} isUserProfile />
+                ))}
             </TabPanel>
-            <TabPanel>
-              {/* <p>Likes</p> */}
-            </TabPanel>
-            <TabPanel>
-              {/* <p>three!</p> */}
-            </TabPanel>
+            <TabPanel>{/* <p>Likes</p> */}</TabPanel>
+            <TabPanel>{/* <p>three!</p> */}</TabPanel>
           </TabPanels>
         </Tabs>
       </Flex>
