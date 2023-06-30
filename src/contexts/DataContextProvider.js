@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 import { useAuthContext } from './AuthContextProvider';
-import { getAllPost, getAllPostOfUser } from '../services/DataServices';
+import { getAllPost, getAllPostOfUser, getBookmarkPost } from '../services/DataServices';
 import { dataInitialState, dataReducer } from '../reducers/DataReducer';
 
 const DataContext = createContext({
@@ -28,12 +28,13 @@ const DataContextProvider = ({ children }) => {
   
   useEffect(() => {
     if (token && user) {
-      getAllPost(token, dispatch, setLoader);
-      getAllPostOfUser(token, user._id, dispatch, setLoader);
+      getAllPost(token, dispatch);
+      getAllPostOfUser(token, user._id, dispatch);
+      getBookmarkPost(token,dispatch)
     }
   }, [token,user]);
 
-  
+  // console.log({state})
 
   return (
     <DataContext.Provider

@@ -15,8 +15,11 @@ const Bookmark = () => {
 useEffect(()=>{
   getBookmarkPost(token,dispatch,setLoader)
 },[token,dispatch,setLoader])
+// console.log({bookmarks})
 
   if(!bookmarks.length) return;
+  // console.log({bookmarks})
+
   return (
     <>
       <Heading size="lg">Bookmark</Heading>

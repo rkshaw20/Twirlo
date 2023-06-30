@@ -18,21 +18,28 @@ import {
   chakra,
   color,
 } from '@chakra-ui/react';
-import { BsThreeDotsVertical, BsBookmark } from 'react-icons/bs';
+import {
+  BsThreeDotsVertical,
+  BsBookmark,
+  BsBookmarkFill,
+} from 'react-icons/bs';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { BiShareAlt } from 'react-icons/bi';
 import { FiEdit } from 'react-icons/fi';
 import { AiFillDelete } from 'react-icons/ai';
 import { getHumanizeTimeForOlderPost } from '../utils/utils';
 import {
+  bookmarkPostService,
   dislikePostService,
   getAllPost,
   getAllPostOfUser,
   getBookmarkPost,
   likePostService,
+  unbookmarkPostService,
 } from '../services/DataServices';
 import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useDataContext } from '../contexts/DataContextProvider';
+import { getSingleUserDetail } from '../services/AuthServices';
 
 // const post = [
 //   {
@@ -59,8 +66,8 @@ import { useDataContext } from '../contexts/DataContextProvider';
 
 const PostCard = ({ post, isUserProfile, isBookmark }) => {
   // const HoverableIcon = chakra(AiOutlineHeart);
-  const { token, user } = useAuthContext();
-  const { setLoader, dispatch } = useDataContext();
+  const { token, user, setUser } = useAuthContext();
+  const { bookmarks, loader, setLoader, dispatch } = useDataContext();
   const {
     likes: { likeCount, likedBy },
     _id: postId,
@@ -78,48 +85,45 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
     ? likedBy.map(({ _id }) => _id).includes(user._id)
     : likedBy.includes(user._id);
 
-  let startTime;
-  let timerId;
-
-  function startTimer() {
-    startTime = Date.now();
-    timerId = setInterval(updateTimer, 1000); // Update timer every second (1000 milliseconds)
-  }
-
-  function stopTimer() {
-    clearInterval(timerId);
-  }
-
-  function updateTimer() {
-    const currentTime = Date.now();
-    const elapsedTime = currentTime - startTime;
-    const seconds = elapsedTime / 1000;
-
-    console.log(`Timer: ${seconds} seconds`);
-  }
+  const isBookmarked = user.bookmarks.includes(postId);
 
   const handleLike = async () => {
     try {
+      setLoader(true);
       if (!isLikedByUser) {
-        await likePostService(token, postId, setLoader);
+        await likePostService(token, postId);
       } else {
-        await dislikePostService(token, postId, setLoader);
+        await dislikePostService(token, postId);
       }
-      await getAllPost(token, dispatch, setLoader);
-      if(isUserProfile){
-        await getAllPostOfUser(token, user._id, dispatch, setLoader);
+      await getAllPost(token, dispatch);
+      if (isUserProfile) {
+        await getAllPostOfUser(token, user._id, dispatch);
       }
-    if(isBookmark){
-      await getBookmarkPost(token,dispatch,setLoader)
-    }
+      if (isBookmark) {
+        await getBookmarkPost(token, dispatch);
+      }
+      setLoader(false);
     } catch (error) {
       console.error('Error handling the like:', error);
     }
   };
 
-  const handleBookmark=async()=>{
-    
-  }
+  const handleBookmark = async () => {
+    try {
+      setLoader(true);
+      if (!isBookmarked) {
+        await bookmarkPostService(token, postId);
+      } else {
+        await unbookmarkPostService(token, postId);
+      }
+      await getBookmarkPost(token, dispatch);
+      const userData = await getSingleUserDetail(token, user._id);
+      setUser(userData.user);
+      setLoader(false);
+    } catch (error) {
+      console.error('Error handling the bookmark:', error);
+    }
+  };
 
   return (
     <Card m={2} p="1rem" mb={3} maxH="600px">
@@ -177,6 +181,7 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
             rounded="full"
             p=".5rem"
             variant="ghost"
+            isDisabled={loader}
             icon={isLikedByUser ? <AiFillHeart /> : <AiOutlineHeart />}
             color={isLikedByUser ? 'red.400' : ''}
             onClick={() => handleLike()}
@@ -185,8 +190,10 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
             rounded="full"
             p=".5rem"
             variant="ghost"
-            icon={<BsBookmark />}
-            onClick={()=>handleBookmark}
+            isDisabled={loader}
+            icon={isBookmarked ? <BsBookmarkFill /> : <BsBookmark />}
+            color={isBookmarked ? 'blue.400' : ''}
+            onClick={() => handleBookmark()}
           ></IconButton>{' '}
         </Flex>
 
