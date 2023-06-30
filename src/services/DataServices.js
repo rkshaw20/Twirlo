@@ -4,14 +4,11 @@ import { TYPE, apiUrl } from '../utils/constants';
 // this gives all post that are on app
 export const getAllPost = async (token, dispatch) => {
   try {
-    const response = await axios.get(
-      `${apiUrl}/post`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
+    const response = await axios.get(`${apiUrl}/post`, {
+      headers: {
+        Authorization: token,
+      },
+    });
     dispatch({ type: TYPE.GET_ALL_POST, payload: response.data.posts });
   } catch (error) {
     console.log(error);
@@ -21,14 +18,11 @@ export const getAllPost = async (token, dispatch) => {
 // this gives all post that are posted by a user
 export const getAllPostOfUser = async (token, id, dispatch) => {
   try {
-    const response = await axios.get(
-      `${apiUrl}/user/all-posts/${id}`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
+    const response = await axios.get(`${apiUrl}/user/all-posts/${id}`, {
+      headers: {
+        Authorization: token,
+      },
+    });
     dispatch({ type: TYPE.GET_ALL_POST_OF_USER, payload: response.data.posts });
   } catch (error) {
     console.log(error);
@@ -77,9 +71,9 @@ export const dislikePostService = async (token, postId) => {
 
 export const bookmarkPostService = async (token, postId) => {
   try {
-    const response = await axios.post(
+    await axios.post(
       `${apiUrl}/post/bookmark/${postId}`,
-      { },
+      {},
       {
         headers: {
           Authorization: token,
@@ -93,14 +87,11 @@ export const bookmarkPostService = async (token, postId) => {
 
 export const unbookmarkPostService = async (token, postId) => {
   try {
-    const response = await axios.delete(
-      `${apiUrl}/post/bookmark/${postId}`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
+    await axios.delete(`${apiUrl}/post/bookmark/${postId}`, {
+      headers: {
+        Authorization: token,
+      },
+    });
   } catch (error) {
     console.log('unbookmark error', error);
   }
@@ -121,3 +112,37 @@ export const getBookmarkPost = async (token, dispatch) => {
     throw error;
   }
 };
+
+// create new post
+
+export const createNewPost = async (token, inputData) => {
+  try {
+    const response = await axios.post(
+      `${apiUrl}/post`,
+      {
+        ...inputData,
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    console.log({ response });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// delete post 
+export const deletePost= async(token,postId)=>{
+  try{
+   const response= await axios.delete(`${apiUrl}/post/${postId}`,{
+    headers: {
+      Authorization: token,
+    }
+   })
+  }catch(error){
+    console.log("delete post",error)
+  }
+}

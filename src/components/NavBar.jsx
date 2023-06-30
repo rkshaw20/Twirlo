@@ -89,7 +89,6 @@ export const NavBar = () => {
               as={ReachLink}
               to="/explore"
               display="inline-flex"
-              // justifyContent='center'
               alignItems="center"
               _hover={{ backgroundColor: bgColor }}
               rounded="3xl"

@@ -16,26 +16,38 @@ import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useDataContext } from '../contexts/DataContextProvider';
 import { getAllPostOfUser } from '../services/DataServices';
 import { useEffect } from 'react';
+import { getSingleUserDetail } from '../services/AuthServices';
 
 const UserProfile = () => {
   const bgColor = useColorModeValue('gray.300', 'gray.600');
 
-  const { user, token } = useAuthContext();
-  const { dispatch, setLoader, userAllPost } = useDataContext();
+  const { user,setUser, token } = useAuthContext();
+  const { dispatch,setLoader, userAllPost } = useDataContext();
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const userData = await getSingleUserDetail(token, user._id);
+      setUser(userData.user);
+    };
+  
+    fetchData();
+  }, []);
+  
+
+  if(!user) return;
   return (
     <Flex flexDir="column" gap={2} p={2}>
       <Flex flexDir="column">
         <Flex w="full" p={{ base: '', lg: '.5rem' }} justify="space-between">
-          <Avatar size={{ base: 'xl', lg: '2xl' }} src={user.pic} />
+          <Avatar size={{ base: 'xl', lg: '2xl' }} src={user?.pic} />
           <Button bgColor={bgColor}>Edit Profile</Button>
         </Flex>
         <Flex flexDir="column" gap={1} p={1}>
           <Box ml="3">
             <Text fontWeight="bold" fontSize="lg">
-              {user.firstName}
+              {user?.firstName}
             </Text>
-            <Text fontSize="sm">@{user.username}</Text>
+            <Text fontSize="sm">@{user?.username}</Text>
           </Box>
           <Box ml="3">
             <Text fontWeight="bold">
@@ -72,7 +84,7 @@ const UserProfile = () => {
             <TabPanel>
               {userAllPost.length &&
                 userAllPost.map(post => (
-                  <PostCard key={post._id} post={post} isUserProfile />
+                  <PostCard key={post?._id} post={post} isUserProfile />
                 ))}
             </TabPanel>
             <TabPanel>{/* <p>Likes</p> */}</TabPanel>

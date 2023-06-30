@@ -30,6 +30,7 @@ import { AiFillDelete } from 'react-icons/ai';
 import { getHumanizeTimeForOlderPost } from '../utils/utils';
 import {
   bookmarkPostService,
+  deletePost,
   dislikePostService,
   getAllPost,
   getAllPostOfUser,
@@ -67,7 +68,7 @@ import { getSingleUserDetail } from '../services/AuthServices';
 const PostCard = ({ post, isUserProfile, isBookmark }) => {
   // const HoverableIcon = chakra(AiOutlineHeart);
   const { token, user, setUser } = useAuthContext();
-  const { bookmarks, loader, setLoader, dispatch } = useDataContext();
+  const { userAllPost,bookmarks, loader, setLoader, dispatch } = useDataContext();
   const {
     likes: { likeCount, likedBy },
     _id: postId,
@@ -77,13 +78,15 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
     comments,
     createdAt,
   } = post;
+  // console.log(userAllPost);
 
+  const isPostOfUser= userAllPost.map(({_id})=>_id).includes(postId);
   const currentDate = new Date();
   const timeOfPost = getHumanizeTimeForOlderPost(currentDate, createdAt);
 
   const isLikedByUser = isUserProfile
     ? likedBy.map(({ _id }) => _id).includes(user._id)
-    : likedBy.includes(user._id);
+    : likedBy.includes(user?._id);
 
   const isBookmarked = user.bookmarks.includes(postId);
 
@@ -125,8 +128,20 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
     }
   };
 
+  const handleDelete=async ()=>{
+    console.log('under delete');
+    try{
+      setLoader(true);
+      await deletePost(token, postId);
+      await getAllPost(token,dispatch);
+      setLoader(false);
+    }catch(error){
+      console.log(error)
+    }
+  }
+
   return (
-    <Card m={2} p="1rem" mb={3} maxH="600px">
+    <Card m={3} p=".5rem" mb={3} maxH="600px">
       <CardHeader>
         <Flex spacing="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -140,13 +155,13 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
             <Text
               alignSelf="flex-start"
               fontSize="md"
-              ml={{ base: '', lg: '-2' }}
-              pt={{ base: '', lg: '.3rem' }}
+              // ml={{ base: '', lg: '-2' }}
+              // pt={{ base: '', lg: '.3rem' }}
             >
               {timeOfPost}
             </Text>
           </Flex>
-          <Menu>
+          {isPostOfUser &&     ( <Menu>
             <MenuButton
               as={IconButton}
               aria-label="Options"
@@ -155,31 +170,34 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
             />
             <MenuList>
               <MenuItem icon={<FiEdit />}>Edit </MenuItem>
-              <MenuItem icon={<AiFillDelete />}>Delete</MenuItem>
+              <MenuItem icon={<AiFillDelete />} onClick={()=>handleDelete()} >Delete</MenuItem>
             </MenuList>
-          </Menu>
+          </Menu>)}
+     
         </Flex>
       </CardHeader>
       <CardBody mt="-6">
         <Text>{content}</Text>
       </CardBody>
-
-      {/* <Image
+  
+      {imageUrl && <Image
         ml="1.2rem"
         mr="1.2rem"
         rounded="2xl"
         objectFit="cover"
         maxH="300px"
         maxW={{ base: '', lg: '600px' }}
-        src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+        src={imageUrl}
         alt="Chakra UI"
-      /> */}
-      <CardFooter justify="space-between" flexWrap="wrap">
+      />}
+      
+      <CardFooter p='0 1rem' mt={2} justify="space-between" flexWrap="wrap">
         <Flex>
           {' '}
           <IconButton
             rounded="full"
             p=".5rem"
+            fontSize='1.5rem'
             variant="ghost"
             isDisabled={loader}
             icon={isLikedByUser ? <AiFillHeart /> : <AiOutlineHeart />}
@@ -189,6 +207,7 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
           <IconButton
             rounded="full"
             p=".5rem"
+            fontSize='1.5rem'
             variant="ghost"
             isDisabled={loader}
             icon={isBookmarked ? <BsBookmarkFill /> : <BsBookmark />}
@@ -200,6 +219,7 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
         <IconButton
           rounded="full"
           p=".5rem"
+          fontSize='1.5rem'
           variant="ghost"
           icon={<BiShareAlt />}
         ></IconButton>
