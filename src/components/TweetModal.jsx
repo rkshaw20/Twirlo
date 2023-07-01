@@ -34,7 +34,7 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
   const { user, setUser, token } = useAuthContext();
   const { loader, setLoader, dispatch } = useDataContext();
   const [inputValue, setInputValue] = useState(post || initialInputValue);
-  
+
   // if(isEdit){
   //   console.log(inputValue?._id);
 
@@ -51,7 +51,6 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
     inputValue?.content?.trim().length === 0 ||
     inputValue.content.trim().length > 240;
 
-
   const handleFormSubmit = async e => {
     e.preventDefault();
 
@@ -60,9 +59,11 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
       setLoader(true);
 
       if (isEdit) {
-        await editPost(token, inputValue,dispatch);
+        await editPost(token, inputValue, dispatch);
       } else {
         await createNewPost(token, inputValue);
+        const userData = await getSingleUserDetail(token, user._id);
+        setUser(userData.user);
       }
       // const userData = await getSingleUserDetail(token, user._id);
       // setUser(userData.user);
@@ -75,15 +76,15 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
 
   const emptyInput = () => {
     onClose();
-    setInputValue(post || initialInputValue);}
-
+    setInputValue(post || initialInputValue);
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={emptyInput}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{isEdit ? 'Edit Tweet' : 'Tweet'}</ModalHeader>
-        <ModalCloseButton/>
+        <ModalCloseButton />
         <form onSubmit={e => handleFormSubmit(e)}>
           <ModalBody>
             <Flex>
