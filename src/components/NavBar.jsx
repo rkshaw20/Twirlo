@@ -11,6 +11,7 @@ import {
   MenuItem,
   MenuList,
   Popover,
+  PopoverArrow,
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
@@ -198,6 +199,7 @@ export const NavBar = () => {
                 </Button>
               </PopoverTrigger>
               <PopoverContent height="70px" w="100px" mr={2}>
+                <PopoverArrow/>
                 <PopoverBody>
                   <Box> <Link as={ReachLink} to='/profile' >Profile</Link> </Box>
                   <Divider />
