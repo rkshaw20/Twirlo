@@ -17,6 +17,7 @@ import {
   Text,
   chakra,
   color,
+  useDisclosure,
 } from '@chakra-ui/react';
 import {
   BsThreeDotsVertical,
@@ -41,6 +42,7 @@ import {
 import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useDataContext } from '../contexts/DataContextProvider';
 import { getSingleUserDetail } from '../services/AuthServices';
+import TweetModal from './TweetModal';
 
 // const post = [
 //   {
@@ -69,6 +71,8 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
   // const HoverableIcon = chakra(AiOutlineHeart);
   const { token, user, setUser } = useAuthContext();
   const { userAllPost,bookmarks, loader, setLoader, dispatch } = useDataContext();
+  const { onOpen, isOpen, onClose } = useDisclosure();
+
   const {
     likes: { likeCount, likedBy },
     _id: postId,
@@ -78,7 +82,7 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
     comments,
     createdAt,
   } = post;
-  // console.log(userAllPost);
+  // const editData={content:{content},imageUrl:{imageUrl}} // this will pass as prop value when editing
 
   const isPostOfUser= userAllPost.map(({_id})=>_id).includes(postId);
   const currentDate = new Date();
@@ -128,6 +132,8 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
     }
   };
 
+ 
+
   const handleDelete=async ()=>{
     console.log('under delete');
     try{
@@ -169,7 +175,9 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
               variant="ghost"
             />
             <MenuList  >
-              <MenuItem isDisabled={loader} icon={<FiEdit />}>Edit </MenuItem>
+              <MenuItem isDisabled={loader} icon={<FiEdit />} onClick={onOpen} >Edit </MenuItem>
+              <TweetModal isOpen={isOpen} onClose={onClose} post={post} isEdit />
+
               <MenuItem isDisabled={loader} icon={<AiFillDelete />} onClick={()=>handleDelete()} >Delete</MenuItem>
             </MenuList>
           </Menu>)}

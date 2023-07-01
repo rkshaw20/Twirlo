@@ -134,6 +134,24 @@ export const createNewPost = async (token, inputData) => {
   }
 };
 
+// edit post 
+export const editPost= async (token,inputData,dispatch)=>{
+  try{
+    const response =await axios.patch(`${apiUrl}/post/${inputData._id}`,  {
+      ...inputData,
+    },
+    {
+      headers: {
+        Authorization: token,
+      },
+    })
+    dispatch({type:TYPE.EDIT_POST,payload:inputData})
+ console.log(response);
+  }catch(error){
+    console.log('delete post error',error)
+  }
+}
+
 // delete post 
 export const deletePost= async(token,postId)=>{
   try{

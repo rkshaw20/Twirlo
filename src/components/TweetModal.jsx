@@ -24,34 +24,48 @@ import { BiImageAdd } from 'react-icons/bi';
 import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useState } from 'react';
 import { useDataContext } from '../contexts/DataContextProvider';
-import { createNewPost, getAllPost } from '../services/DataServices';
+import { createNewPost, editPost, getAllPost } from '../services/DataServices';
 import { getSingleUserDetail } from '../services/AuthServices';
 
+const initialInputValue = { content: '', imageUrl: '' };
 
-const initialInputValue={ content: '', imageUrl: '' };
-
-const TweetModal = ({ isOpen, onClose }) => {
-    // const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user,setUser, token } = useAuthContext();
+const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
+  // const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user, setUser, token } = useAuthContext();
   const { loader, setLoader, dispatch } = useDataContext();
-  const [inputValue, setInputValue] = useState(initialInputValue);
+  const [inputValue, setInputValue] = useState(post || initialInputValue);
+  
+  // if(isEdit){
+  //   console.log(inputValue?._id);
 
+  // }
   const handlepostInput = e => {
-    setInputValue((prevValue)=>({ ...prevValue, [e.target.name]: (e.target.value) }));
+    setInputValue(prevValue => ({
+      ...prevValue,
+      [e.target.name]: e.target.value,
+    }));
   };
-  const btnDisable=inputValue?.content?.trim().length === 0 || inputValue.content.trim().length > 240;
+  // console.log(inputValue)
 
-  const emptyInput=()=>setInputValue(initialInputValue);
+  const btnDisable =
+    inputValue?.content?.trim().length === 0 ||
+    inputValue.content.trim().length > 240;
+
+  const emptyInput = () => setInputValue(post || initialInputValue);
   const handleFormSubmit = async e => {
     e.preventDefault();
 
     console.log(inputValue);
     try {
       setLoader(true);
-      await createNewPost(token, inputValue);
-      // await getAllPost(token, dispatch);
-      const userData = await getSingleUserDetail(token, user._id);
-      setUser(userData.user);
+
+      if (isEdit) {
+        await editPost(token, inputValue,dispatch);
+      } else {
+        await createNewPost(token, inputValue);
+      }
+      // const userData = await getSingleUserDetail(token, user._id);
+      // setUser(userData.user);
       emptyInput();
       setLoader(false);
     } catch (error) {
@@ -63,7 +77,7 @@ const TweetModal = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Tweet</ModalHeader>
+        <ModalHeader>{isEdit ? 'Edit Tweet' : 'Tweet'}</ModalHeader>
         <ModalCloseButton onClick={emptyInput} />
         <form onSubmit={e => handleFormSubmit(e)}>
           <ModalBody>
@@ -112,7 +126,7 @@ const TweetModal = ({ isOpen, onClose }) => {
                 onClick={onClose}
                 isDisabled={btnDisable}
               >
-                Tweet
+                {isEdit ? 'Edit Tweet' : 'Tweet'}
               </Button>
             </Flex>
           </ModalFooter>

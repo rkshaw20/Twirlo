@@ -3,7 +3,7 @@ import { TYPE } from '../utils/constants';
 export const dataInitialState = {
   allPost: [],
   userAllPost: [],
-  bookmarks:[],
+  bookmarks: [],
 };
 
 export const dataReducer = (state, action) => {
@@ -24,6 +24,14 @@ export const dataReducer = (state, action) => {
       return {
         ...state,
         bookmarks: [...action.payload],
+      };
+    }
+    case TYPE.EDIT_POST: {
+      return {
+        ...state,
+        allPost: state.allPost.map(post =>
+          post._id === action.payload._id ? action.payload : post
+        ),
       };
     }
 

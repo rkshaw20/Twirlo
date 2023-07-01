@@ -38,7 +38,7 @@ export const NavBar = () => {
   const bgColor = useColorModeValue('gray.300', 'gray.600');
   const flexDirection = useBreakpointValue({ base: 'row', lg: 'column' });
 
-  console.log(user);
+  // console.log(user);
   const handleLogout = () => {
     removeLocalStorage('token');
     removeLocalStorage('user');
