@@ -43,6 +43,7 @@ import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useDataContext } from '../contexts/DataContextProvider';
 import { getSingleUserDetail } from '../services/AuthServices';
 import TweetModal from './TweetModal';
+import { useState } from 'react';
 
 // const post = [
 //   {
@@ -70,8 +71,11 @@ import TweetModal from './TweetModal';
 const PostCard = ({ post, isUserProfile, isBookmark }) => {
   // const HoverableIcon = chakra(AiOutlineHeart);
   const { token, user, setUser } = useAuthContext();
-  const { userAllPost,bookmarks, loader, setLoader, dispatch } = useDataContext();
+  const { userAllPost, bookmarks, loader, setLoader, dispatch } =
+    useDataContext();
   const { onOpen, isOpen, onClose } = useDisclosure();
+
+  const [btnLoader, setBtnLoader] = useState(false);
 
   const {
     likes: { likeCount, likedBy },
@@ -84,7 +88,7 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
   } = post;
   // const editData={content:{content},imageUrl:{imageUrl}} // this will pass as prop value when editing
 
-  const isPostOfUser= userAllPost.map(({_id})=>_id).includes(postId);
+  const isPostOfUser = userAllPost.map(({ _id }) => _id).includes(postId);
   const currentDate = new Date();
   const timeOfPost = getHumanizeTimeForOlderPost(currentDate, createdAt);
 
@@ -96,7 +100,8 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
 
   const handleLike = async () => {
     try {
-      setLoader(true);
+      // setLoader(true);
+      setBtnLoader(true);
       if (!isLikedByUser) {
         await likePostService(token, postId);
       } else {
@@ -109,7 +114,8 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
       if (isBookmark) {
         await getBookmarkPost(token, dispatch);
       }
-      setLoader(false);
+      setBtnLoader(false);
+      // setLoader(false);
     } catch (error) {
       console.error('Error handling the like:', error);
     }
@@ -117,7 +123,8 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
 
   const handleBookmark = async () => {
     try {
-      setLoader(true);
+      // setLoader(true);
+      setBtnLoader(true);
       if (!isBookmarked) {
         await bookmarkPostService(token, postId);
       } else {
@@ -126,25 +133,23 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
       await getBookmarkPost(token, dispatch);
       const userData = await getSingleUserDetail(token, user._id);
       setUser(userData.user);
-      setLoader(false);
+      setBtnLoader(false);
+      // setLoader(false);
     } catch (error) {
       console.error('Error handling the bookmark:', error);
     }
   };
 
- 
-
-  const handleDelete=async ()=>{
-    console.log('under delete');
-    try{
+  const handleDelete = async () => {
+    try {
       setLoader(true);
       await deletePost(token, postId);
-      await getAllPost(token,dispatch);
+      await getAllPost(token, dispatch);
       setLoader(false);
-    }catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
 
   return (
     <Card m={3} p=".5rem" mb={3} maxH="600px">
@@ -167,47 +172,68 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
               {timeOfPost}
             </Text>
           </Flex>
-          {isPostOfUser &&     ( <Menu >
-            <MenuButton
-              as={IconButton}
-              aria-label="Options"
-              icon={<BsThreeDotsVertical />}
-              variant="ghost"
-            />
-            <MenuList  >
-              <MenuItem isDisabled={loader} icon={<FiEdit />} onClick={onOpen} >Edit </MenuItem>
-              <TweetModal isOpen={isOpen} onClose={onClose} post={post} isEdit />
+          {isPostOfUser && (
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<BsThreeDotsVertical />}
+                variant="ghost"
+              />
+              <MenuList>
+                <MenuItem
+                  isDisabled={loader}
+                  icon={<FiEdit />}
+                  onClick={onOpen}
+                >
+                  Edit{' '}
+                </MenuItem>
+                <TweetModal
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  post={post}
+                  isEdit
+                />
 
-              <MenuItem isDisabled={loader} icon={<AiFillDelete />} onClick={()=>handleDelete()} >Delete</MenuItem>
-            </MenuList>
-          </Menu>)}
-     
+                <MenuItem
+                  isDisabled={loader}
+                  icon={<AiFillDelete />}
+                  onClick={() => handleDelete()}
+                >
+                  Delete
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          )}
         </Flex>
       </CardHeader>
       <CardBody mt="-6">
         <Text>{content}</Text>
       </CardBody>
-  
-      {imageUrl && <Image
-        ml="1.2rem"
-        mr="1.2rem"
-        rounded="2xl"
-        objectFit="cover"
-        maxH="300px"
-        maxW={{ base: '', lg: '600px' }}
-        src={imageUrl}
-        alt="Chakra UI"
-      />}
-      
-      <CardFooter p='0 1rem' mt={2} justify="space-between" flexWrap="wrap">
+
+      {imageUrl && (
+        <Image
+          ml="1.2rem"
+          mr="1.2rem"
+          rounded="2xl"
+          objectFit="cover"
+          maxH="300px"
+          maxW={{ base: '', lg: '600px' }}
+          src={imageUrl}
+          alt="Chakra UI"
+        />
+      )}
+
+      <CardFooter p="0 1rem" mt={2} justify="space-between" flexWrap="wrap">
         <Flex>
           {' '}
           <IconButton
             rounded="full"
+            // isLoading
             p=".5rem"
-            fontSize='1.5rem'
+            fontSize="1.5rem"
             variant="ghost"
-            isDisabled={loader}
+            isDisabled={btnLoader}
             icon={isLikedByUser ? <AiFillHeart /> : <AiOutlineHeart />}
             color={isLikedByUser ? 'red.400' : ''}
             onClick={() => handleLike()}
@@ -215,9 +241,9 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
           <IconButton
             rounded="full"
             p=".5rem"
-            fontSize='1.5rem'
+            fontSize="1.5rem"
             variant="ghost"
-            isDisabled={loader}
+            isDisabled={btnLoader}
             icon={isBookmarked ? <BsBookmarkFill /> : <BsBookmark />}
             color={isBookmarked ? 'blue.400' : ''}
             onClick={() => handleBookmark()}
@@ -227,7 +253,7 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
         <IconButton
           rounded="full"
           p=".5rem"
-          fontSize='1.5rem'
+          fontSize="1.5rem"
           variant="ghost"
           icon={<BiShareAlt />}
         ></IconButton>
