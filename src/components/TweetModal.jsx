@@ -25,13 +25,14 @@ import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useState } from 'react';
 import { useDataContext } from '../contexts/DataContextProvider';
 import { createNewPost, getAllPost } from '../services/DataServices';
+import { getSingleUserDetail } from '../services/AuthServices';
 
 
 const initialInputValue={ content: '', imageUrl: '' };
 
 const TweetModal = ({ isOpen, onClose }) => {
     // const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, token } = useAuthContext();
+  const { user,setUser, token } = useAuthContext();
   const { loader, setLoader, dispatch } = useDataContext();
   const [inputValue, setInputValue] = useState(initialInputValue);
 
@@ -48,7 +49,9 @@ const TweetModal = ({ isOpen, onClose }) => {
     try {
       setLoader(true);
       await createNewPost(token, inputValue);
-      await getAllPost(token, dispatch);
+      // await getAllPost(token, dispatch);
+      const userData = await getSingleUserDetail(token, user._id);
+      setUser(userData.user);
       emptyInput();
       setLoader(false);
     } catch (error) {

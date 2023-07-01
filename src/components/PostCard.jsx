@@ -161,16 +161,16 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
               {timeOfPost}
             </Text>
           </Flex>
-          {isPostOfUser &&     ( <Menu>
+          {isPostOfUser &&     ( <Menu >
             <MenuButton
               as={IconButton}
               aria-label="Options"
               icon={<BsThreeDotsVertical />}
               variant="ghost"
             />
-            <MenuList>
-              <MenuItem icon={<FiEdit />}>Edit </MenuItem>
-              <MenuItem icon={<AiFillDelete />} onClick={()=>handleDelete()} >Delete</MenuItem>
+            <MenuList  >
+              <MenuItem isDisabled={loader} icon={<FiEdit />}>Edit </MenuItem>
+              <MenuItem isDisabled={loader} icon={<AiFillDelete />} onClick={()=>handleDelete()} >Delete</MenuItem>
             </MenuList>
           </Menu>)}
      
