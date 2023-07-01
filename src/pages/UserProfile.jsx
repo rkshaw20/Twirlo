@@ -26,8 +26,10 @@ const UserProfile = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoader(true);
       const userData = await getSingleUserDetail(token, user._id);
       setUser(userData.user);
+      setLoader(false);
     };
   
     fetchData();

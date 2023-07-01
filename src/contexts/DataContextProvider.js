@@ -28,13 +28,14 @@ const DataContextProvider = ({ children }) => {
   
   useEffect(() => {
     if (token && user) {
+      setLoader(true)
       getAllPost(token, dispatch);
       getAllPostOfUser(token, user._id, dispatch);
       getBookmarkPost(token,dispatch)
+      setLoader(false)
     }
   }, [token,user]);
 
-  // console.log({state})
 
   return (
     <DataContext.Provider

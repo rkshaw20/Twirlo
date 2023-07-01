@@ -33,11 +33,12 @@ import { removeLocalStorage } from '../utils/utils';
 import { useAuthContext } from '../contexts/AuthContextProvider';
 
 export const NavBar = () => {
-  const { setUser, setToken } = useAuthContext();
+  const { user, setUser, setToken } = useAuthContext();
   const { onOpen, isOpen, onClose } = useDisclosure();
   const bgColor = useColorModeValue('gray.300', 'gray.600');
   const flexDirection = useBreakpointValue({ base: 'row', lg: 'column' });
 
+  console.log(user);
   const handleLogout = () => {
     removeLocalStorage('token');
     removeLocalStorage('user');
@@ -192,7 +193,7 @@ export const NavBar = () => {
                 <Button h="60px" w="60px" rounded="full">
                   <Avatar
                     size={{ base: 'md', lg: 'md' }}
-                    src="https://res.cloudinary.com/dn5zs5sqx/image/upload/v1687185484/FhNGqSr__400x400_fnkcno.jpg"
+                    src={user?.pic}
                   />
                 </Button>
               </PopoverTrigger>
@@ -224,11 +225,12 @@ export const NavBar = () => {
               >
                 <Avatar
                   size={{ base: 'md', lg: 'md' }}
-                  src="https://res.cloudinary.com/dn5zs5sqx/image/upload/v1687185484/FhNGqSr__400x400_fnkcno.jpg"
+                  src={user?.pic}
                 />
-                <Box ml="3">
-                  <Text fontWeight="bold">Raj</Text>
-                  <Text fontSize="sm">@RajKishorShaw17</Text>
+                <Box ml="3"  minW='100px'
+>
+                  <Text fontWeight="bold">{user?.firstName}</Text>
+                  <Text fontSize="sm">@{user?.username}</Text>
                 </Box>
               </Flex>
             </MenuButton>
