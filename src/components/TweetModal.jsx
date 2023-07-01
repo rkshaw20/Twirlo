@@ -51,7 +51,7 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
     inputValue?.content?.trim().length === 0 ||
     inputValue.content.trim().length > 240;
 
-  const emptyInput = () => setInputValue(post || initialInputValue);
+
   const handleFormSubmit = async e => {
     e.preventDefault();
 
@@ -73,12 +73,17 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
     }
   };
 
+  const emptyInput = () => {
+    onClose();
+    setInputValue(post || initialInputValue);}
+
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={emptyInput}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{isEdit ? 'Edit Tweet' : 'Tweet'}</ModalHeader>
-        <ModalCloseButton onClick={emptyInput} />
+        <ModalCloseButton/>
         <form onSubmit={e => handleFormSubmit(e)}>
           <ModalBody>
             <Flex>

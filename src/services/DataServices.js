@@ -148,7 +148,7 @@ export const editPost= async (token,inputData,dispatch)=>{
     dispatch({type:TYPE.EDIT_POST,payload:inputData})
  console.log(response);
   }catch(error){
-    console.log('delete post error',error)
+    console.log('edit post error',error)
   }
 }
 
