@@ -1,10 +1,16 @@
 import { Grid, GridItem, useColorModeValue } from '@chakra-ui/react';
 import { Header } from './Header';
 import { NavBar } from './NavBar';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import SideBar from './SideBar';
+import { useEffect } from 'react';
 
 const RootLayout = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   return (
     <Grid
       bg={useColorModeValue('gray.50', 'gray.800')}
@@ -22,7 +28,7 @@ const RootLayout = () => {
                     "nav main aside"`,
       }}
     >
-      <GridItem as={'header'} area="header"  top="0">
+      <GridItem as={'header'} area="header" top="0">
         <Header />
       </GridItem>
       <GridItem as={'nav'} area="nav">
