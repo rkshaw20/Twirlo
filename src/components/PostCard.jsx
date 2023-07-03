@@ -44,29 +44,8 @@ import { useDataContext } from '../contexts/DataContextProvider';
 import { getSingleUserDetail } from '../services/AuthServices';
 import TweetModal from './TweetModal';
 import { useState } from 'react';
+import {Link} from 'react-router-dom';
 
-// const post = [
-//   {
-//     likes: {
-//       likeCount: 0,
-//       likedBy: [],
-//       dislikedBy: [],
-//     },
-//     _id: '6491f97b6b94cc7c9e716b46',
-//     author: {
-//       _id: '6491e6ea2e336a4721e206dd',
-//       firstName: 'Jagrut',
-//       username: 'jagrut',
-//       pic: '',
-//     },
-//     content: 'This is a sample content',
-//     imgURL: '',
-//     comments: [],
-//     createdAt: '2023-06-20T19:09:47.843Z',
-//     updatedAt: '2023-06-20T19:09:47.843Z',
-//     __v: 0,
-//   },
-// ];
 
 const PostCard = ({ post, isUserProfile, isBookmark }) => {
   // const HoverableIcon = chakra(AiOutlineHeart);
@@ -88,7 +67,8 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
   } = post;
   // const editData={content:{content},imageUrl:{imageUrl}} // this will pass as prop value when editing
 
-  const isPostOfUser = userAllPost.map(({ _id }) => _id).includes(postId);
+  // const isPostOfUser = userAllPost.map(({ _id }) => _id).includes(postId);
+  const isAuthUser=authorId === user?._id;
   const currentDate = new Date();
   const timeOfPost = getHumanizeTimeForOlderPost(currentDate, createdAt);
 
@@ -152,27 +132,25 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
   };
 
   return (
-    <Card m={3} p=".5rem" mb={3} maxH="600px">
-      <CardHeader>
+    <Card m={2} p=".5rem" mb={3} maxH="600px">
+      <CardHeader m={0} >
         <Flex spacing="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
             <Avatar name={firstName} src={pic} />
 
             <Box>
-              <Heading size="sm">{`${firstName} ${lastName}`}</Heading>
+              <Heading size="sm">  <Link  to={`/profile/${authorId}`} >{`${firstName} ${lastName}`}</Link> </Heading>
               <Text>@{username}</Text>
             </Box>
             {/* add date here */}
             <Text
               alignSelf="flex-start"
               fontSize="md"
-              // ml={{ base: '', lg: '-2' }}
-              // pt={{ base: '', lg: '.3rem' }}
             >
               {timeOfPost}
             </Text>
           </Flex>
-          {isPostOfUser && (
+          {isAuthUser && (
             <Menu>
               <MenuButton
                 as={IconButton}
