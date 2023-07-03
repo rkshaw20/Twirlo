@@ -28,6 +28,7 @@ import { Flex, Spacer } from '@chakra-ui/react';
 import { AiFillHome, AiFillPlusCircle } from 'react-icons/ai';
 import { MdExplore } from 'react-icons/md';
 import { BsFillBookmarkFill } from 'react-icons/bs';
+import { FaSearch } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
 import TweetModal from './TweetModal';
 import { removeLocalStorage } from '../utils/utils';
@@ -97,7 +98,7 @@ export const NavBar = () => {
               w={{ base: '50px', lg: '150px' }}
               pl="1rem"
             >
-              <Icon fontSize="1.5rem" as={MdExplore} />
+              <Icon fontSize="1.5rem" as={FaSearch} />
               <Text
                 p={2}
                 fontSize="1.3rem"
@@ -161,7 +162,7 @@ export const NavBar = () => {
           <Flex alignItems="center" display={{ base: 'none', lg: 'block' }}>
             <Link
               as={ReachLink}
-              to="/profile"
+              to={`/profile/${user?._id}`}
               display="inline-flex"
               alignItems="center"
               _hover={{ backgroundColor: bgColor }}
