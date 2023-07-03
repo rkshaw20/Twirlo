@@ -1,80 +1,33 @@
 import {
-  Avatar,
-  Badge,
-  Box,
-  Button,
   Flex,
-  HStack,
   Heading,
   Stack,
-  Text,
 } from '@chakra-ui/react';
-import React from 'react';
+import React   from 'react';
+import { useAuthContext } from '../contexts/AuthContextProvider';
+import { useDataContext } from '../contexts/DataContextProvider';
+import SideBarUser from './SideBarUser';
 
-const users = [
-  {
-    id: 1,
-    src: 'https://bit.ly/dan-abramov',
-    name: 'Roland',
-    userName: '@RolandPatro',
-  },
-  {
-    id: 2,
-    src: 'https://bit.ly/tioluwani-kolawole',
-    name: 'John',
-    userName: '@JohnDoe',
-  },
-  {
-    id: 3,
-    src: 'https://bit.ly/kent-c-dodds',
-    name: 'Emily',
-    userName: '@EmilySmith',
-  },
-  {
-    id: 4,
-    src: 'https://bit.ly/ryan-florence',
-    name: 'Michael',
-    userName: '@MichaelJohnson',
-  },
-  {
-    id: 5,
-    src: 'https://bit.ly/prosper-baba',
-    name: 'Sarah',
-    userName: '@SarahBrown',
-  },
-  {
-    id: 6,
-    src: 'https://bit.ly/code-beast',
-    name: 'David',
-    userName: '@DavidWilliams',
-  },
-  {
-    id: 7,
-    src: 'https://bit.ly/sage-adebayo',
-    name: 'Emma',
-    userName: '@EmmaJones',
-  },
-];
+
+
+
 
 const SideBar = () => {
+  const {token,user}=useAuthContext();
+  const {allUser,dispatch,setLoader}=useDataContext();
+
+  if(!user) return;
+  const followingUserId = user.following.map(({ _id }) => _id);
+  const userAndFollwingUserId = [...followingUserId, user._id];
+
+const userToFollow= allUser.filter((user)=>!userAndFollwingUserId.includes(user._id));
   return (
     <Flex height="full" p={3} direction="column">
       <Heading size="md">Who to Follow</Heading>
       <Stack mt={4}>
         <Flex direction='column'  >
-          {users.map(({ id, src, name, userName }) => (
-            <Flex align="center" key={id} mt={3} >
-              <Avatar src={src} />
-              <Box ml="2">
-                <Text fontSize="md" fontWeight="bold">
-                  {name}
-                </Text>
-                <Text fontSize="xs">{userName}</Text>
-              </Box>
-              <Button colorScheme="twitter" ml="auto" rounded="3xl">
-                Follow
-              </Button>{' '}
-            </Flex>
+          {userToFollow.map((userInfo) => (
+            <SideBarUser key={userInfo._id} userInfo={userInfo} />
           ))}
         </Flex>
       </Stack>
