@@ -6,13 +6,19 @@ import {
   useState,
 } from 'react';
 import { useAuthContext } from './AuthContextProvider';
-import { getAllPost, getAllPostOfUser, getBookmarkPost } from '../services/DataServices';
+import {
+  getAllPost,
+  getAllPostOfUser,
+  getAllUser,
+  getBookmarkPost,
+} from '../services/DataServices';
 import { dataInitialState, dataReducer } from '../reducers/DataReducer';
 
 const DataContext = createContext({
+  allUser: [],
   allPost: [],
   userAllPost: [],
-  bookmarks:[],
+  bookmarks: [],
   loader: '',
   dispatch: () => {},
   setLoader: () => {},
@@ -25,24 +31,24 @@ const DataContextProvider = ({ children }) => {
   const { token, user } = useAuthContext();
   const [loader, setLoader] = useState(false);
 
-  
   useEffect(() => {
     if (token && user) {
-      setLoader(true)
+      setLoader(true);
+      getAllUser(token, dispatch);
       getAllPost(token, dispatch);
-      getAllPostOfUser(token, user._id, dispatch);
-      getBookmarkPost(token,dispatch)
-      setLoader(false)
+      // getAllPostOfUser(token, user._id, dispatch);
+      getBookmarkPost(token, dispatch);
+      setLoader(false);
     }
-  }, [token,user]);
-
+  }, [token, user]);
 
   return (
     <DataContext.Provider
       value={{
+        allUser: state.allUser,
         userAllPost: state.userAllPost,
         allPost: state.allPost,
-        bookmarks:state.bookmarks,
+        bookmarks: state.bookmarks,
         dispatch,
         loader,
         setLoader,

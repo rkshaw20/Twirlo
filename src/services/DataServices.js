@@ -1,6 +1,21 @@
 import axios from 'axios';
 import { TYPE, apiUrl } from '../utils/constants';
 
+// get all user of the app
+export const getAllUser = async (token, dispatch) => {
+  try {
+    const response = await axios.get(`${apiUrl}/user`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    // console.log(response);
+    dispatch({ type: TYPE.GET_ALL_USER, payload: response.data.users });
+  } catch (error) {
+    console.log('error in get user list', error);
+  }
+};
+
 // this gives all post that are on app
 export const getAllPost = async (token, dispatch) => {
   try {
@@ -134,33 +149,78 @@ export const createNewPost = async (token, inputData) => {
   }
 };
 
-// edit post 
-export const editPost= async (token,inputData,dispatch)=>{
-  try{
-    const response =await axios.patch(`${apiUrl}/post/${inputData._id}`,  {
-      ...inputData,
-    },
-    {
+// edit post
+export const editPost = async (token, inputData, dispatch) => {
+  try {
+    const response = await axios.patch(
+      `${apiUrl}/post/${inputData._id}`,
+      {
+        ...inputData,
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    dispatch({ type: TYPE.EDIT_POST, payload: inputData });
+    console.log(response);
+  } catch (error) {
+    console.log('edit post error', error);
+  }
+};
+
+// delete post
+export const deletePost = async (token, postId) => {
+  try {
+    await axios.delete(`${apiUrl}/post/${postId}`, {
       headers: {
         Authorization: token,
       },
-    })
-    dispatch({type:TYPE.EDIT_POST,payload:inputData})
- console.log(response);
-  }catch(error){
-    console.log('edit post error',error)
+    });
+  } catch (error) {
+    console.log('delete post', error);
   }
-}
+};
 
-// delete post 
-export const deletePost= async(token,postId)=>{
-  try{
-   const response= await axios.delete(`${apiUrl}/post/${postId}`,{
-    headers: {
-      Authorization: token,
-    }
-   })
-  }catch(error){
-    console.log("delete post",error)
+// follow user
+
+export const followUser = async (token, userId) => {
+  try {
+    await axios.post(
+      `${apiUrl}/user/follow`,
+
+      {
+        followId: userId, // userID of the person you wish to follow
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+  } catch (error) {
+    console.log(error);
   }
-}
+};
+export const unfollowUser = async (token, userId) => {
+  try {
+    console.log('unfollow');
+
+    const response=await axios.post(
+      `${apiUrl}/user/unfollow`,
+
+      {
+        unfollowId: userId, // userID of the person you wish to unfollow
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};

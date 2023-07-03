@@ -2,12 +2,19 @@ import { TYPE } from '../utils/constants';
 
 export const dataInitialState = {
   allPost: [],
+  allUser: [],
   userAllPost: [],
   bookmarks: [],
 };
 
 export const dataReducer = (state, action) => {
   switch (action.type) {
+    case TYPE.GET_ALL_USER: {
+      return {
+        ...state,
+        allUser: [...action.payload],
+      };
+    }
     case TYPE.GET_ALL_POST_OF_USER: {
       return {
         ...state,
@@ -33,6 +40,13 @@ export const dataReducer = (state, action) => {
           post._id === action.payload._id ? action.payload : post
         ),
       };
+    }
+
+    case TYPE.FOLLOW_USER:{
+      return{
+        ...state,
+        
+      }
     }
 
     default:

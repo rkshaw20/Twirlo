@@ -20,7 +20,6 @@ const AuthContextProvider = ({ children }) => {
         const userData = await getSingleUserDetail(token, decodedToken._id);
         setLocalStorage('user', userData.user);
         setUser(userData.user)
-        // console.log({user})
 
       } catch (error) {
         console.log(error);
