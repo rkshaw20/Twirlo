@@ -54,7 +54,7 @@ const UserProfile = () => {
       }
     };
     fetchData();
-  }, [userIdFromParam]);
+  }, [userIdFromParam,user]);
 
   // this is for setting profile details of user
   useEffect(() => {
@@ -105,7 +105,7 @@ const UserProfile = () => {
         <Flex flexDir="column" gap={1} p={1}>
           <Box ml="3">
             <Text fontWeight="bold" fontSize="lg">
-              {profile?.firstName}
+              {`${profile?.firstName} ${profile?.lastName}`}
             </Text>
             <Text fontSize="sm">@{profile?.username}</Text>
           </Box>
