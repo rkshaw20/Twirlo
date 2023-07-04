@@ -7,6 +7,8 @@ import {
   FormControl,
   FormLabel,
   Icon,
+  IconButton,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -16,45 +18,64 @@ import {
   ModalHeader,
   ModalOverlay,
   Spacer,
+  Spinner,
   Textarea,
   useDisclosure,
 } from '@chakra-ui/react';
 
 import { BiImageAdd } from 'react-icons/bi';
+import {CloseIcon} from '@chakra-ui/icons';
+
 import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useState } from 'react';
 import { useDataContext } from '../contexts/DataContextProvider';
 import { createNewPost, editPost, getAllPost } from '../services/DataServices';
 import { getSingleUserDetail } from '../services/AuthServices';
+import { uploadMedia } from '../utils/utils';
 
 const initialInputValue = { content: '', imageUrl: '' };
 
 const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, setUser, token } = useAuthContext();
-  const { loader, setLoader, dispatch } = useDataContext();
+  const { setLoader, dispatch } = useDataContext();
   const [inputValue, setInputValue] = useState(post || initialInputValue);
+  const [uploadLoader, setUploadLoader] = useState(false);
 
-  // if(isEdit){
-  //   console.log(inputValue?._id);
-
-  // }
   const handlepostInput = e => {
-    setInputValue(prevValue => ({
-      ...prevValue,
+    setInputValue({
+      ...inputValue,
       [e.target.name]: e.target.value,
-    }));
+    });
   };
-  // console.log(inputValue)
+
+  const handleImageInput = async e => {
+    setUploadLoader(true);
+    await uploadMedia({
+      media: e.target.files[0],
+      updatePic: ({ cloudinaryURL }) =>
+        setInputValue({
+          ...inputValue,
+          imageUrl: cloudinaryURL,
+        }),
+    });
+    setUploadLoader(false);
+  };
 
   const btnDisable =
-    inputValue?.content?.trim().length === 0 ||
-    inputValue.content.trim().length > 240;
+    inputValue?.content?.trim().length === 0  ||
+    inputValue.content.trim().length > 280;
+
+  const emptyInput = () => {
+    onClose();
+    setInputValue(post || initialInputValue);
+  };
+
+  const hanldeImageRemove = () => {
+    setInputValue(prev => ({ ...prev, imageUrl: '' }));
+  };
 
   const handleFormSubmit = async e => {
     e.preventDefault();
-
-    console.log(inputValue);
     try {
       setLoader(true);
 
@@ -65,8 +86,6 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
         const userData = await getSingleUserDetail(token, user._id);
         setUser(userData.user);
       }
-      // const userData = await getSingleUserDetail(token, user._id);
-      // setUser(userData.user);
       emptyInput();
       setLoader(false);
     } catch (error) {
@@ -74,22 +93,17 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
     }
   };
 
-  const emptyInput = () => {
-    onClose();
-    setInputValue(post || initialInputValue);
-  };
-
   return (
-    <Modal isOpen={isOpen} onClose={emptyInput}>
+    <Modal isOpen={isOpen} onClose={emptyInput} >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{isEdit ? 'Edit Tweet' : 'Tweet'}</ModalHeader>
         <ModalCloseButton />
         <form onSubmit={e => handleFormSubmit(e)}>
           <ModalBody>
-            <Flex>
-              <Box>
-                <Avatar src={user?.pic} />
+            <Flex gap={2} >
+              <Box >
+                <Avatar src={user?.pic} name={user?.firstName} />
               </Box>
               <Box flexGrow={1}>
                 <Textarea
@@ -107,6 +121,13 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
                 />
               </Box>
             </Flex>
+            {uploadLoader && <Spinner />}
+            {inputValue.imageUrl && (
+              <Box h="6rem" w="10rem">
+                <Image src={inputValue.imageUrl} objectFit="contain" />
+                <IconButton  icon={<CloseIcon />}  w='full' size='xs' onClick={hanldeImageRemove}/>
+              </Box>
+            )}
           </ModalBody>
           <Divider borderColor="gray.500" />
           <ModalFooter p={2}>
@@ -119,8 +140,8 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
                   <Input
                     type="file"
                     display="none"
-                    accept="image/*"
-                    //   onChange={onUploadClick}
+                    accept="image/*, video/*"
+                    onChange={handleImageInput}
                   />
                 </FormControl>{' '}
               </Flex>

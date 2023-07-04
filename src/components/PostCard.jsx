@@ -164,7 +164,7 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
                   icon={<FiEdit />}
                   onClick={onOpen}
                 >
-                  Edit{' '}
+                  Edit
                 </MenuItem>
                 <TweetModal
                   isOpen={isOpen}
@@ -203,11 +203,10 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
       )}
 
       <CardFooter p="0 1rem" mt={2} justify="space-between" flexWrap="wrap">
-        <Flex>
-          {' '}
-          <IconButton
+        <Flex gap={4} >
+         <Flex alignItems='center' gap={.5} >
+         <IconButton
             rounded="full"
-            // isLoading
             p=".5rem"
             fontSize="1.5rem"
             variant="ghost"
@@ -216,6 +215,9 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
             color={isLikedByUser ? 'red.400' : ''}
             onClick={() => handleLike()}
           ></IconButton>
+          <Text fontSize='1.2rem' >{likeCount}</Text>
+         </Flex>
+         
           <IconButton
             rounded="full"
             p=".5rem"
