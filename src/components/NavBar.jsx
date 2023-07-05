@@ -193,18 +193,19 @@ export const NavBar = () => {
             <Popover>
               <PopoverTrigger>
                 <Button h="60px" w="60px" rounded="full">
-                  <Avatar
-                    size={{ base: 'md', lg: 'md' }}
-                    src={user?.pic}
-                  />
+                  <Avatar size={{ base: 'md', lg: 'md' }} src={user?.pic} />
                 </Button>
               </PopoverTrigger>
               <PopoverContent height="70px" w="100px" mr={2}>
-                <PopoverArrow/>
+                <PopoverArrow />
                 <PopoverBody>
-                  <Box> <Link as={ReachLink} to='/profile' >Profile</Link> </Box>
+                  <Box>
+                    <Link as={ReachLink} to={`/profile/${user?._id}`}>
+                      Profile
+                    </Link>
+                  </Box>
                   <Divider />
-                  <Box onClick={handleLogout} >Logout</Box>
+                  <Box onClick={handleLogout}>Logout</Box>
                 </PopoverBody>
               </PopoverContent>
             </Popover>
@@ -226,12 +227,8 @@ export const NavBar = () => {
                 p={{ base: '', lg: '.5rem' }}
                 border="1px solid gray"
               >
-                <Avatar
-                  size={{ base: 'md', lg: 'md' }}
-                  src={user?.pic}
-                />
-                <Box ml="3"  minW='100px'
->
+                <Avatar size={{ base: 'md', lg: 'md' }} src={user?.pic} />
+                <Box ml="3" minW="100px">
                   <Text fontWeight="bold">{user?.firstName}</Text>
                   <Text fontSize="sm">@{user?.username}</Text>
                 </Box>

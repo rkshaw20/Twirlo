@@ -29,7 +29,6 @@ const Explore = () => {
   const { allPost, allUser, dispatch, setLoader } = useDataContext();
   const { token } = useAuthContext();
   const [inputValue, setInputValue] = useState('');
-  const [searchSuggestion, setSearchSuggestion] = useState({});
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialFocusRef = useRef(null);
 
@@ -41,20 +40,20 @@ const Explore = () => {
   const handleSearch = e => {
     const value = e.target.value.toLowerCase();
     setInputValue(value);
-    const filteredList = allUser.filter(({ firstName, lastName, username }) => {
-      const fullName = `${firstName} ${lastName}`;
-      return (
-        fullName.toLowerCase().includes(inputValue.trim()) ||
-        username.toLowerCase().includes(inputValue.trim())
-      );
-    });
-    setSearchSuggestion(filteredList);
+    
   };
-  console.log(searchSuggestion);
+  const filteredList = allUser.filter(({ firstName, lastName, username }) => {
+    const fullName = `${firstName} ${lastName}`;
+    return (
+      fullName.toLowerCase().includes(inputValue.trim()) ||
+      username.toLowerCase().includes(inputValue.trim())
+    );
+  });
   return (
     <Flex flexDir="column">
       <Flex justifyContent="center">
         <Popover
+          isLazy
           placement="bottom"
           initialFocusRef={initialFocusRef}
           isOpen={isOpen && inputValue.length > 0}
@@ -81,13 +80,13 @@ const Explore = () => {
           <PopoverContent maxW={{ base: '12rem', lg: '22rem' }}>
             <PopoverArrow />
             <PopoverBody>
-            <Flex flexDir="column" gap="4" maxH="16rem" overflowY="scroll" p="2">
+            <Flex flexDir="column" gap="4" maxH="16rem" overflowY="auto" p="2">
 
-              {searchSuggestion.length > 0 &&
-                searchSuggestion.map(userInfo => (
+              {filteredList.length > 0 &&
+                filteredList.map(userInfo => (
                   <SideBarUser key={userInfo._id} userInfo={userInfo} isSearch/>
                 ))}
-              {searchSuggestion.length === 0 && (
+              {filteredList.length === 0 && (
                 <Text>No User with this name </Text>
               )}
               </Flex>

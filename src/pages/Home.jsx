@@ -37,7 +37,7 @@ const Home = () => {
   const { token, user, setUser } = useAuthContext();
   const { allPost, dispatch, setLoader } = useDataContext();
   const [ filterType, setFilterType ] = useState('');
-
+  
   if (!user) return;
 
   const followingUserId = user.following.map(({ _id }) => _id);

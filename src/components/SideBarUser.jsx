@@ -6,10 +6,10 @@ import { getSingleUserDetail } from '../services/AuthServices';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const SideBarUser = ({ userInfo }) => {
+const SideBarUser = ({ userInfo ,isSearch }) => {
   const { token, user, setUser } = useAuthContext();
   const { setLoader, loader } = useDataContext();
-  const { _id, firstName, username, pic } = userInfo;
+  const { _id, firstName,lastName, username, pic } = userInfo;
 
   const handleFollow = async () => {
     try {
@@ -27,18 +27,19 @@ const SideBarUser = ({ userInfo }) => {
       <Avatar src={pic} />
       <Box ml="2">
         <Link to={`/profile/${_id}`} fontSize="md" fontWeight="bold">
-          {firstName}
+          {`${firstName} ${lastName}`}
         </Link>
-        <Text fontSize="xs">{username}</Text>
+        <Text fontSize="xs">@{username}</Text>
       </Box>
-      <Button
+      {!isSearch &&  <Button
         colorScheme="twitter"
         ml="auto"
         rounded="3xl"
         onClick={handleFollow}
       >
         Follow
-      </Button>
+      </Button>}
+     
     </Flex>
   );
 };
