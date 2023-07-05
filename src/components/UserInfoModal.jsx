@@ -49,10 +49,7 @@ const UserInfoModal = ({ isOpen, onClose }) => {
   // );
   const handleFormSubmit = async e => {
     e.preventDefault();
-    // console.log(isInfoChanged);
-
     try {
-      console.log('under try');
       setLoader(true);
       await updateUserInfo(token, userInfo);
       const userData = await getSingleUserDetail(token, user._id);

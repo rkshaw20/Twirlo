@@ -29,3 +29,55 @@ export const getHumanizeTimeForOlderPost = (currentDate, date) => {
   }
 };
 
+export const uploadMedia = async ({ media, updatePic, toast }) => {
+  const mediaType = media.type.split('/')[0];
+  if (mediaType === 'video' && Math.round(media.size / 1024000) > 10) {
+    // showToast({
+    //   toast,
+    //   type: TOAST_TYPE.Error,
+    //   message: 'Video size should be less than 10MB',
+    // });
+    return;
+  }
+
+  if (Math.round(media.size / 1024000) > 4) {
+    // showToast({
+    //   toast,
+    //   type: TOAST_TYPE.Error,
+    //   message: 'Video size should be less than 10MB',
+    // });
+    return;
+  }
+
+  const data = new FormData();
+  data.append('file', media);
+  data.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+  data.append('cloud_name', process.env.REACT_APP_CLOUDINARY_CLOUD_NAME);
+  data.append('folder', 'twirlo');
+  const url =
+    mediaType === 'video'
+      ? `https://api.cloudinary.com/v1_1/${
+        process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
+        }/video/upload`
+      : `https://api.cloudinary.com/v1_1/${
+        process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
+        }/image/upload`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: data,
+    });
+
+    const json = await response.json();
+
+    updatePic({ cloudinaryURL: json.url });
+  } catch (error) {
+    console.log(error);
+    // showToast({
+    //   toast,
+    //   type: TOAST_TYPE.Error,
+    //   message: 'Media Uploading failed',
+    // });
+  }
+};
