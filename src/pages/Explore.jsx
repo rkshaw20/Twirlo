@@ -50,7 +50,7 @@ const Explore = () => {
     );
   });
   return (
-    <Flex flexDir="column">
+    <Flex flexDir="column" mt={2} >
       <Flex justifyContent="center">
         <Popover
           isLazy

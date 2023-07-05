@@ -28,9 +28,7 @@ export const UserUpdateMenu = ({ handleAvatarSelect, handleImageInput }) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const imageRef = useRef(null);
 
-  const handleClick = () => {
-    console.log('clicked');
-  };
+ 
   return (
     <Menu>
       <MenuButton

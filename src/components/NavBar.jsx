@@ -75,6 +75,7 @@ export const NavBar = () => {
               rounded="3xl"
               w={{ base: '50px', lg: '150px' }}
               pl="1rem"
+              _active={{}}
             >
               <Icon fontSize="1.5rem" as={AiFillHome} />
               <Text

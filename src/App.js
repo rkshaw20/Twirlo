@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChakraProvider, theme } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
@@ -11,6 +11,7 @@ import Bookmark from './pages/Bookmark';
 import UserProfile from './pages/UserProfile';
 import PostDetails from './pages/PostDetails';
 import { RequireAuth } from './components/RequireAuth';
+import theme from './styles/theme';
 
 const router = createBrowserRouter([
   {
