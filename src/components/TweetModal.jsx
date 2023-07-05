@@ -24,7 +24,7 @@ import {
 } from '@chakra-ui/react';
 
 import { BiImageAdd } from 'react-icons/bi';
-import {CloseIcon} from '@chakra-ui/icons';
+import { CloseIcon } from '@chakra-ui/icons';
 
 import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useState } from 'react';
@@ -32,6 +32,7 @@ import { useDataContext } from '../contexts/DataContextProvider';
 import { createNewPost, editPost, getAllPost } from '../services/DataServices';
 import { getSingleUserDetail } from '../services/AuthServices';
 import { uploadMedia } from '../utils/utils';
+import EmojiPopover from './EmojiPopover';
 
 const initialInputValue = { content: '', imageUrl: '' };
 
@@ -61,10 +62,9 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
     setUploadLoader(false);
   };
 
-  const btnDisable =
-    inputValue?.content?.trim().length === 0  ||
-    inputValue.content.trim().length > 280;
-
+  const onEmojiClick = e => {
+    setInputValue(prev => ({ ...prev, content: prev.content + e.emoji }));
+  };
   const emptyInput = () => {
     onClose();
     setInputValue(post || initialInputValue);
@@ -73,6 +73,9 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
   const hanldeImageRemove = () => {
     setInputValue(prev => ({ ...prev, imageUrl: '' }));
   };
+  const btnDisable =
+    inputValue?.content?.trim().length === 0 ||
+    inputValue.content.trim().length > 280;
 
   const handleFormSubmit = async e => {
     e.preventDefault();
@@ -94,15 +97,15 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={emptyInput} >
+    <Modal isOpen={isOpen} onClose={emptyInput}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent m="1rem">
         <ModalHeader>{isEdit ? 'Edit Tweet' : 'Tweet'}</ModalHeader>
         <ModalCloseButton />
         <form onSubmit={e => handleFormSubmit(e)}>
           <ModalBody>
-            <Flex gap={2} >
-              <Box >
+            <Flex gap={2}>
+              <Box>
                 <Avatar src={user?.pic} name={user?.firstName} />
               </Box>
               <Box flexGrow={1}>
@@ -123,9 +126,21 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
             </Flex>
             {uploadLoader && <Spinner />}
             {inputValue.imageUrl && (
-              <Box h="6rem" w="10rem">
+              <Box h="5rem" w="8rem" position="relative">
                 <Image src={inputValue.imageUrl} objectFit="contain" />
-                <IconButton  icon={<CloseIcon />}  w='full' size='xs' onClick={hanldeImageRemove}/>
+                <Box>
+                  <IconButton
+                    icon={<CloseIcon />}
+                    rounded="full"
+                    size="xs"
+                    onClick={hanldeImageRemove}
+                    position='absolute'
+                    top={0}
+                    right={0}
+                    zIndex= '999'
+
+                  />
+                </Box>
               </Box>
             )}
           </ModalBody>
@@ -143,7 +158,8 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
                     accept="image/*, video/*"
                     onChange={handleImageInput}
                   />
-                </FormControl>{' '}
+                </FormControl>
+                <EmojiPopover onEmojiClick={onEmojiClick} />
               </Flex>
               <Spacer />
               <Button
