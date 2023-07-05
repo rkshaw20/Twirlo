@@ -54,7 +54,7 @@ const UserProfile = () => {
       }
     };
     fetchData();
-  }, [userIdFromParam,user]);
+  }, [userIdFromParam, user]);
 
   // this is for setting profile details of user
   useEffect(() => {
@@ -91,16 +91,17 @@ const UserProfile = () => {
         <Flex w="full" p={{ base: '', lg: '.5rem' }} justify="space-between">
           <Avatar size={{ base: 'xl', lg: '2xl' }} src={profile?.pic} />
           {isAuthUser ? (
-            <Button bgColor={bgColor} onClick={onOpen}>
-              Edit Profile
-            </Button>
+            <>
+              <Button bgColor={bgColor} onClick={onOpen}>
+                Edit Profile
+              </Button>
+              <UserInfoModal isOpen={isOpen} onClose={onClose} />
+            </>
           ) : (
             <Button bgColor="blue.400" onClick={handleFollowAndUnfollow}>
               {isFollwing ? 'Unfollow' : 'Follow'}
             </Button>
           )}
-
-          <UserInfoModal isOpen={isOpen} onClose={onClose} />
         </Flex>
         <Flex flexDir="column" gap={1} p={1}>
           <Box ml="3">

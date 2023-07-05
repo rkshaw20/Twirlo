@@ -36,7 +36,6 @@ const DataContextProvider = ({ children }) => {
       setLoader(true);
       getAllUser(token, dispatch);
       getAllPost(token, dispatch);
-      // getAllPostOfUser(token, user._id, dispatch);
       getBookmarkPost(token, dispatch);
       setLoader(false);
     }

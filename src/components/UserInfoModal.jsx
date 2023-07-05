@@ -6,7 +6,12 @@ import {
   FormControl,
   FormLabel,
   Icon,
+  IconButton,
   Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -22,11 +27,11 @@ import { getSingleUserDetail, updateUserInfo } from '../services/AuthServices';
 import { useState } from 'react';
 import { AiFillCamera } from 'react-icons/ai';
 import { uploadMedia } from '../utils/utils';
+import { UserUpdateMenu } from './UserUpdateMenu';
 
 const UserInfoModal = ({ isOpen, onClose }) => {
   const { user, setUser, token } = useAuthContext();
   const { setLoader } = useDataContext();
-  // const [userInfo, setUserInfo] = useState(user);
   const [userInfo, setUserInfo] = useState({
     firstName: user.firstName,
     lastName: user.lastName,
@@ -40,6 +45,9 @@ const UserInfoModal = ({ isOpen, onClose }) => {
     setUserInfo(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleAvatarSelect = e => {
+    setUserInfo(prev=>({...prev, pic:e.target.src}))
+  };
   const emptyInput = () => {
     onClose();
     setUserInfo(user);
@@ -61,6 +69,8 @@ const UserInfoModal = ({ isOpen, onClose }) => {
     }
   };
   const handleImageInput = async e => {
+    console.log('called');
+
     setUploadLoader(true);
     await uploadMedia({
       media: e.target.files[0],
@@ -75,7 +85,7 @@ const UserInfoModal = ({ isOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} onClose={emptyInput}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent w={{ base: '90vw' }}>
         <ModalHeader p={2}>Edit Profile</ModalHeader>
         <ModalCloseButton />
         <form onSubmit={e => handleFormSubmit(e)}>
@@ -83,29 +93,12 @@ const UserInfoModal = ({ isOpen, onClose }) => {
             <Flex>
               <Box position="relative">
                 <Avatar size="xl" src={userInfo.pic} />
-                <FormControl mt={4}>
-                  <FormLabel>
-                    {uploadLoader ? (
-                      <Spinner position="absolute" bottom="2" right="1" />
-                    ) : (
-                      <Icon
-                        as={AiFillCamera}
-                        boxSize="1.8rem"
-                        position="absolute"
-                        bottom="2"
-                        right="1"
-                        cursor="pointer"
-                      />
-                    )}
-                  </FormLabel>
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    display="none"
-                    name="pic"
-                    onChange={handleImageInput}
+                <Box position="absolute" bottom="0" right="-.5rem">
+                  <UserUpdateMenu
+                    handleAvatarSelect={handleAvatarSelect}
+                    handleImageInput={handleImageInput}
                   />
-                </FormControl>
+                </Box>
               </Box>
             </Flex>
             <FormControl mt={4}>
