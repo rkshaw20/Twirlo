@@ -217,7 +217,8 @@ const PostCard = ({ post, isUserProfile, isBookmark, isUserAllPost }) => {
               color={isLikedByUser ? 'red.400' : ''}
               onClick={() => handleLike()}
             ></IconButton>
-            <Text fontSize="1.2rem">{likeCount}</Text>
+            {likeCount>0 && <Text fontSize="1.2rem">{likeCount}</Text> }
+            
           </Flex>
           <IconButton
             rounded="full"
