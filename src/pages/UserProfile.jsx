@@ -32,11 +32,13 @@ const UserProfile = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { user, setUser, token } = useAuthContext();
-  const { allUser, dispatch, setLoader, userAllPost } = useDataContext();
+  const { allUser,userAllPost, allPost, dispatch, setLoader } = useDataContext();
   const [profile, setProfile] = useState({});
 
   const isAuthUser = userIdFromParam === user?._id;
   const secondUserDetail = allUser?.find(({ _id }) => _id === userIdFromParam);
+
+console.log({userAllPost});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,7 +56,7 @@ const UserProfile = () => {
       }
     };
     fetchData();
-  }, [userIdFromParam, user]);
+  }, [userIdFromParam ]);
 
   // this is for setting profile details of user
   useEffect(() => {
@@ -83,7 +85,9 @@ const UserProfile = () => {
       console.log(error);
     }
   };
+  const likedPostList=allPost.filter(({likes:{likedBy}})=>likedBy.includes(userIdFromParam) )
 
+  // console.log({likekPostList});
   if (!user) return;
   return (
     <Flex flexDir="column" gap={2} p={2}>
@@ -138,6 +142,7 @@ const UserProfile = () => {
           <TabList>
             <Flex w="full" justify="space-between">
               <Tab _hover={{ backgroundColor: bgColor }}>Tweets</Tab>
+              <Tab _hover={{ backgroundColor: bgColor }}>Likes</Tab>
             </Flex>
           </TabList>
 
@@ -145,6 +150,12 @@ const UserProfile = () => {
             <TabPanel>
               {userAllPost.length &&
                 userAllPost.map(post => (
+                  <PostCard key={post?._id} post={post} isUserProfile isUserAllPost />
+                ))}
+            </TabPanel>
+            <TabPanel>
+              {likedPostList.length &&
+                likedPostList.map(post => (
                   <PostCard key={post?._id} post={post} isUserProfile />
                 ))}
             </TabPanel>

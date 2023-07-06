@@ -44,14 +44,14 @@ import { useDataContext } from '../contexts/DataContextProvider';
 import { getSingleUserDetail } from '../services/AuthServices';
 import TweetModal from './TweetModal';
 import { useState } from 'react';
-import {Link} from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
-
-const PostCard = ({ post, isUserProfile, isBookmark }) => {
+const PostCard = ({ post, isUserProfile, isBookmark, isUserAllPost }) => {
   // const HoverableIcon = chakra(AiOutlineHeart);
+  const { userId: userIdFromParam } = useParams();
+
   const { token, user, setUser } = useAuthContext();
-  const { userAllPost, bookmarks, loader, setLoader, dispatch } =
-    useDataContext();
+  const { loader, setLoader, dispatch } = useDataContext();
   const { onOpen, isOpen, onClose } = useDisclosure();
 
   const [btnLoader, setBtnLoader] = useState(false);
@@ -62,19 +62,22 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
     author: { _id: authorId, firstName, lastName, username, pic },
     content,
     imageUrl,
-    comments,
     createdAt,
   } = post;
-  // const editData={content:{content},imageUrl:{imageUrl}} // this will pass as prop value when editing
 
-  // const isPostOfUser = userAllPost.map(({ _id }) => _id).includes(postId);
-  const isAuthUser=authorId === user?._id;
+  // console.log({userIdFromParam});
+  // console.log(user._id);
+
+  const isAuthUser = authorId === user?._id;
   const currentDate = new Date();
   const timeOfPost = getHumanizeTimeForOlderPost(currentDate, createdAt);
 
   const isLikedByUser = isUserProfile
-    ? likedBy.map(({ _id }) => _id).includes(user._id)
+    ? isUserAllPost
+      ? likedBy.map(({ _id }) => _id).includes(user._id)
+      : likedBy.includes(user._id)
     : likedBy.includes(user?._id);
+ 
 
   const isBookmarked = user.bookmarks.includes(postId);
 
@@ -133,20 +136,21 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
 
   return (
     <Card m={2} p=".5rem" mb={3} maxH="600px">
-      <CardHeader m={0} >
+      <CardHeader m={0}>
         <Flex spacing="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
             <Avatar name={firstName} src={pic} />
 
             <Box>
-              <Heading size="sm">  <Link  to={`/profile/${authorId}`} >{`${firstName} ${lastName}`}</Link> </Heading>
+              <Heading size="sm">
+                {' '}
+                <Link
+                  to={`/profile/${authorId}`}
+                >{`${firstName} ${lastName}`}</Link>{' '}
+              </Heading>
               <Text>@{username}</Text>
             </Box>
-            {/* add date here */}
-            <Text
-              alignSelf="flex-start"
-              fontSize="md"
-            >
+            <Text alignSelf="flex-start" fontSize="md">
               {timeOfPost}
             </Text>
           </Flex>
@@ -203,21 +207,20 @@ const PostCard = ({ post, isUserProfile, isBookmark }) => {
       )}
 
       <CardFooter p="0 1rem" mt={2} justify="space-between" flexWrap="wrap">
-        <Flex gap={4} >
-         <Flex alignItems='center' gap={.5} >
-         <IconButton
-            rounded="full"
-            p=".5rem"
-            fontSize="1.5rem"
-            variant="ghost"
-            isDisabled={btnLoader}
-            icon={isLikedByUser ? <AiFillHeart /> : <AiOutlineHeart />}
-            color={isLikedByUser ? 'red.400' : ''}
-            onClick={() => handleLike()}
-          ></IconButton>
-          <Text fontSize='1.2rem' >{likeCount}</Text>
-         </Flex>
-         
+        <Flex gap={4}>
+          <Flex alignItems="center" gap={0.5}>
+            <IconButton
+              rounded="full"
+              p=".5rem"
+              fontSize="1.5rem"
+              variant="ghost"
+              isDisabled={btnLoader}
+              icon={isLikedByUser ? <AiFillHeart /> : <AiOutlineHeart />}
+              color={isLikedByUser ? 'red.400' : ''}
+              onClick={() => handleLike()}
+            ></IconButton>
+            <Text fontSize="1.2rem">{likeCount}</Text>
+          </Flex>
           <IconButton
             rounded="full"
             p=".5rem"
