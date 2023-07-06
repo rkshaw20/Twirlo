@@ -12,6 +12,7 @@ import {
   Text,
   useColorModeValue,
   Center,
+  useToast,
 } from '@chakra-ui/react';
 import { Link as ReachLink, useNavigate } from 'react-router-dom';
 
@@ -23,41 +24,46 @@ import jwtDecode from 'jwt-decode';
 import { useDataContext } from '../contexts/DataContextProvider';
 
 const Login = () => {
-  const {  setToken } = useAuthContext();
-  const {loader,setLoader}=useDataContext();
+  const { setToken } = useAuthContext();
+  const { loader, setLoader } = useDataContext();
 
   const [userInput, setUserInput] = useState({ email: '', password: '' });
   const navigate = useNavigate();
+  const toast = useToast();
 
-    const guestUser = {
-      email: 'rajshaw@continental.com',
-      password: 'password',
-    };
+  const guestUser = {
+    email: 'rajshaw@continental.com',
+    password: 'password',
+  };
 
   const handleUserInput = e => {
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  const hanldeGuestLogin=(e)=>{
+  const hanldeGuestLogin = e => {
     setUserInput(guestUser);
-    handleFormSubmit(e,guestUser)
- }
+    handleFormSubmit(e, guestUser);
+  };
 
   const handleFormSubmit = async (e, input) => {
     e.preventDefault();
     try {
-      setLoader(true)
+      setLoader(true);
       const { token } = await loginService(input);
       setLocalStorage('token', token);
       setToken(token);
-      setLoader(false)
+      setLoader(false);
+      toast({
+        title: 'Logged In!',
+        description: 'Welcome to Twirlo!',
+        status: 'success',
+        duration: 5000,
+      });
       navigate('/');
     } catch (error) {
       console.log(error);
     }
   };
-
-
 
   return (
     <Flex
@@ -79,7 +85,7 @@ const Login = () => {
           boxShadow={'lg'}
           p={8}
         >
-          <Stack spacing={4}>
+          <Stack  >
             <form onSubmit={e => handleFormSubmit(e, userInput)}>
               <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
@@ -89,6 +95,7 @@ const Login = () => {
                   value={userInput.email}
                   onChange={handleUserInput}
                   required
+                  mb={2}
                 />
               </FormControl>
               <FormControl id="password" isRequired>
@@ -104,7 +111,7 @@ const Login = () => {
               <Stack spacing={3}>
                 <Button
                   type="submit"
-                  isLoading ={loader ? true : false}
+                  isLoading={loader ? true : false}
                   loadingText="signing in"
                   mt={3}
                   bg={'blue.400'}
@@ -116,7 +123,7 @@ const Login = () => {
                   Sign in
                 </Button>
                 <Button
-                  isLoading ={loader ? true : false}
+                  isLoading={loader ? true : false}
                   loadingText="signing in"
                   bg={'blue.400'}
                   color={'white'}
@@ -128,7 +135,7 @@ const Login = () => {
                   Sign in as a Guest
                 </Button>
               </Stack>
-              <Stack>
+              <Stack mt={2} >
                 <Text align={'center'}>
                   New User?{' '}
                   <Link color={'blue.400'} as={ReachLink} to="/signup">

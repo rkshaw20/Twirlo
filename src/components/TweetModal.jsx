@@ -29,7 +29,7 @@ import { CloseIcon } from '@chakra-ui/icons';
 import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useState } from 'react';
 import { useDataContext } from '../contexts/DataContextProvider';
-import { createNewPost, editPost, getAllPost } from '../services/DataServices';
+import { createNewPost, editPost, getAllPost, getAllPostOfUser } from '../services/DataServices';
 import { getSingleUserDetail } from '../services/AuthServices';
 import { uploadMedia } from '../utils/utils';
 import EmojiPopover from './EmojiPopover';
@@ -87,6 +87,8 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
       } else {
         await createNewPost(token, inputValue);
         const userData = await getSingleUserDetail(token, user._id);
+        await getAllPostOfUser(token, user._id, dispatch);
+
         setUser(userData.user);
       }
       emptyInput();

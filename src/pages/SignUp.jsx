@@ -13,6 +13,7 @@ import {
   Link,
   Text,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 
 import { Link as ReachLink, useNavigate } from 'react-router-dom';
@@ -26,6 +27,7 @@ import { useDataContext } from '../contexts/DataContextProvider';
 const SignUp = () => {
   const {  setToken } = useAuthContext();
   const {loader,setLoader}=useDataContext();
+  const toast=useToast()
 
   const [showPassword, setShowPassword] = useState(false);
   const [userInput, setUserInput] = useState({
@@ -54,7 +56,7 @@ const SignUp = () => {
     }
     try {
         setLoader(true);
-      const response = await SignUpService({
+       await SignUpService({
         firstName,
         lastName,
         username,
@@ -65,6 +67,12 @@ const SignUp = () => {
       setLocalStorage('token', token);
       setToken(token);
       setLoader(false);
+      toast({
+        title: 'Account created!',
+        description: 'Welcome to Twirlo!',
+        status: 'success',
+        duration: 5000,
+      });
       navigate('/');
     } catch (error) {
       console.log('error', error);

@@ -47,9 +47,6 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 const PostCard = ({ post, isUserProfile, isBookmark, isUserAllPost }) => {
-  // const HoverableIcon = chakra(AiOutlineHeart);
-  const { userId: userIdFromParam } = useParams();
-
   const { token, user, setUser } = useAuthContext();
   const { loader, setLoader, dispatch } = useDataContext();
   const { onOpen, isOpen, onClose } = useDisclosure();
@@ -161,8 +158,9 @@ const PostCard = ({ post, isUserProfile, isBookmark, isUserAllPost }) => {
                 aria-label="Options"
                 icon={<BsThreeDotsVertical />}
                 variant="ghost"
+                rounded='full'
               />
-              <MenuList>
+              <MenuList minW='6rem' >
                 <MenuItem
                   isDisabled={loader}
                   icon={<FiEdit />}

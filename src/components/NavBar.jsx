@@ -22,6 +22,7 @@ import {
   useColorMode,
   useColorModeValue,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 import { Link as ReachLink } from 'react-router-dom';
 import { Flex, Spacer } from '@chakra-ui/react';
@@ -39,6 +40,7 @@ export const NavBar = () => {
   const { onOpen, isOpen, onClose } = useDisclosure();
   const bgColor = useColorModeValue('gray.300', 'gray.600');
   const flexDirection = useBreakpointValue({ base: 'row', lg: 'column' });
+  const toast=useToast();
 
   // console.log(user);
   const handleLogout = () => {
@@ -46,6 +48,12 @@ export const NavBar = () => {
     removeLocalStorage('user');
     setUser(null);
     setToken(null);
+    toast({
+      title: 'Logged Out!',
+      // description: 'Welcome to Twirlo!',
+      status: 'error',
+      duration: 5000,
+    });
   };
 
   return (
@@ -75,7 +83,7 @@ export const NavBar = () => {
               rounded="3xl"
               w={{ base: '50px', lg: '150px' }}
               pl="1rem"
-              _active={{}}
+              _activeLink={{bg:bgColor}}
             >
               <Icon fontSize="1.5rem" as={AiFillHome} />
               <Text
@@ -236,8 +244,7 @@ export const NavBar = () => {
               </Flex>
             </MenuButton>
             <MenuList placement="top-start">
-              {/* MenuItems are not rendered unless Menu is open */}
-              {/* <MenuItem>Profile</MenuItem> */}
+              
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </MenuList>
           </Menu>

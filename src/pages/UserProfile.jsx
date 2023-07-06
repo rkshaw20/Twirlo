@@ -25,6 +25,7 @@ import { useEffect, useState } from 'react';
 import { getSingleUserDetail, updateUserInfo } from '../services/AuthServices';
 import UserInfoModal from '../components/UserInfoModal';
 import { useParams } from 'react-router-dom';
+import TwirloSpinner from '../components/TwirloSpinner';
 
 const UserProfile = () => {
   const bgColor = useColorModeValue('gray.300', 'gray.600');
@@ -36,9 +37,9 @@ const UserProfile = () => {
   const [profile, setProfile] = useState({});
 
   const isAuthUser = userIdFromParam === user?._id;
+
   const secondUserDetail = allUser?.find(({ _id }) => _id === userIdFromParam);
 
-console.log({userAllPost});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,6 +67,7 @@ console.log({userAllPost});
       setProfile(secondUserDetail);
     }
   }, [secondUserDetail]);
+  if (!user) return ;
 
   const followingUserId = user.following.map(({ _id }) => _id);
   const userAndFollwingUserId = [...followingUserId, user._id];
@@ -87,8 +89,10 @@ console.log({userAllPost});
   };
   const likedPostList=allPost.filter(({likes:{likedBy}})=>likedBy.includes(userIdFromParam) )
 
-  // console.log({likekPostList});
-  if (!user) return;
+  if(userAllPost.length===0){
+    return <TwirloSpinner/>
+  }
+
   return (
     <Flex flexDir="column" gap={2} p={2}>
       <Flex flexDir="column">
@@ -140,7 +144,7 @@ console.log({userAllPost});
       <Flex w="full">
         <Tabs w="full">
           <TabList>
-            <Flex w="full" justify="space-between">
+            <Flex w="full" justify="space-around">
               <Tab _hover={{ backgroundColor: bgColor }}>Tweets</Tab>
               <Tab _hover={{ backgroundColor: bgColor }}>Likes</Tab>
             </Flex>
