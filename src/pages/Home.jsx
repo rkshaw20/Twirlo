@@ -62,12 +62,12 @@ const Home = () => {
     return <TwirloSpinner/>
   }
   return (
-    <Flex flexDir="column" justify="center">
+    <Flex flexDir="column" justify="center"mt={2} >
       <Flex>
         <Heading>Home</Heading>
       </Flex>
       <Divider />
-      {/* <Flex flexDir='column' maxW='600px' alignItems='center' > */}
+      {/* <Flex flexDir='column'  alignItems='center' > */}
       <Flex w="full">
         <Tabs w="full">
           <TabList>
@@ -77,13 +77,15 @@ const Home = () => {
             </Flex>
           </TabList>
         </Tabs>
-      </Flex>
+      </Flex >
+      <Flex flexDir='column' alignItems='center' >
       {filteredPost.map(post => (
         <PostCard key={post._id} post={post} />
       ))}
+      </Flex>
     </Flex>
 
-    // </Flex>
+    // </Flex> 
   );
 };
 

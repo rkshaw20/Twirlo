@@ -39,18 +39,7 @@ const RootLayout = () => {
         as={'main'}
         area={'main'}
         overflowY="scroll"
-        // css={{
-        //   '&::-webkit-scrollbar': {
-        //     width: '2px',
-        //   },
-        //   '&::-webkit-scrollbar-thumb': {
-        //     backgroundColor: useColorModeValue('#cbd5e0', '#3182ce'),
-        //     borderRadius: '2px',
-        //   },
-        //   '&::-webkit-scrollbar-track': {
-        //     backgroundColor: 'transparent',
-        //   },
-        // }}
+        
       >
         <Outlet />
       </GridItem>

@@ -34,13 +34,16 @@ import { getSingleUserDetail } from '../services/AuthServices';
 import { uploadMedia } from '../utils/utils';
 import EmojiPopover from './EmojiPopover';
 
-const initialInputValue = { content: '', imageUrl: '' };
 
 const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
   const { user, setUser, token } = useAuthContext();
   const { setLoader, dispatch } = useDataContext();
-  const [inputValue, setInputValue] = useState(post || initialInputValue);
+  const initialInputValue = { content: '', imageUrl: '' };
+  // const [inputValue, setInputValue] = useState(isEdit ? {content:post.content, imageUrl:post.imageUrl} : initialInputValue);
+  const [inputValue, setInputValue] = useState(isEdit ? post : initialInputValue);
   const [uploadLoader, setUploadLoader] = useState(false);
+
+  console.log({inputValue})
 
   const handlepostInput = e => {
     setInputValue({
@@ -67,7 +70,7 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
   };
   const emptyInput = () => {
     onClose();
-    setInputValue(post || initialInputValue);
+    setInputValue(isEdit ? post: initialInputValue);
   };
 
   const hanldeImageRemove = () => {
@@ -83,15 +86,15 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
       setLoader(true);
 
       if (isEdit) {
-        await editPost(token, inputValue, dispatch);
+       await editPost(token, inputValue, dispatch);
       } else {
         await createNewPost(token, inputValue);
         const userData = await getSingleUserDetail(token, user._id);
-        await getAllPostOfUser(token, user._id, dispatch);
-
         setUser(userData.user);
       }
-      emptyInput();
+        await getAllPostOfUser(token, user._id, dispatch);
+      // emptyInput();
+      setInputValue(inputValue)
       setLoader(false);
     } catch (error) {
       console.log('Error in posting tweet');

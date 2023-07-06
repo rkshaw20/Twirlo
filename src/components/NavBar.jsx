@@ -42,7 +42,6 @@ export const NavBar = () => {
   const flexDirection = useBreakpointValue({ base: 'row', lg: 'column' });
   const toast=useToast();
 
-  // console.log(user);
   const handleLogout = () => {
     removeLocalStorage('token');
     removeLocalStorage('user');
@@ -50,7 +49,6 @@ export const NavBar = () => {
     setToken(null);
     toast({
       title: 'Logged Out!',
-      // description: 'Welcome to Twirlo!',
       status: 'error',
       duration: 5000,
     });
@@ -77,13 +75,16 @@ export const NavBar = () => {
               as={ReachLink}
               to="/"
               display="inline-flex"
-              justifyContent=""
               alignItems="center"
               _hover={{ backgroundColor: bgColor }}
               rounded="3xl"
               w={{ base: '50px', lg: '150px' }}
               pl="1rem"
-              _activeLink={{bg:bgColor}}
+              _activeLink={{
+                transition: 'none',
+                fontWeight: 'bold',
+                color: 'blue.400',
+              }}
             >
               <Icon fontSize="1.5rem" as={AiFillHome} />
               <Text
@@ -106,6 +107,11 @@ export const NavBar = () => {
               rounded="3xl"
               w={{ base: '50px', lg: '150px' }}
               pl="1rem"
+              _activeLink={{
+                transition: 'none',
+                fontWeight: 'bold',
+                color: 'blue.400',
+              }}
             >
               <Icon fontSize="1.5rem" as={FaSearch} />
               <Text
@@ -156,6 +162,11 @@ export const NavBar = () => {
               rounded="3xl"
               w={{ base: '50px', lg: '150px' }}
               pl="1rem"
+              _activeLink={{
+                transition: 'none',
+                fontWeight: 'bold',
+                color: 'blue.400',
+              }}
             >
               <Icon fontSize="1.5rem" as={BsFillBookmarkFill} />
               <Text
@@ -178,6 +189,11 @@ export const NavBar = () => {
               rounded="3xl"
               w={{ base: '50px', lg: '150px' }}
               pl="1rem"
+              _activeLink={{
+                transition: 'none',
+                fontWeight: 'bold',
+                color: 'blue.400',
+              }}
             >
               <Icon fontSize="1.5rem" as={CgProfile} />
               <Text

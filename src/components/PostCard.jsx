@@ -132,7 +132,7 @@ const PostCard = ({ post, isUserProfile, isBookmark, isUserAllPost }) => {
   };
 
   return (
-    <Card m={2} p=".5rem" mb={3} maxH="600px">
+    <Card m={2} p=".5rem" mb={3} maxH="600px" minW='600px' maxW='600px' >
       <CardHeader m={0}>
         <Flex spacing="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">

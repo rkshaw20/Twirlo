@@ -3,7 +3,7 @@ import { apiUrl } from '../utils/constants';
 
 export const loginService = async (userData) => {
   const response = await axios.post(
-    'https://twirlo-backend-1.vercel.app/api/auth/signin',
+    `${apiUrl}/auth/signin`,
     { ...userData }
   );
 
@@ -13,14 +13,14 @@ export const loginService = async (userData) => {
 };
 export const SignUpService = async (userData) => {
   const response = await axios.post(
-    'https://twirlo-backend-1.vercel.app/api/auth/register',
+    `${apiUrl}/auth/register`,
     { ...userData }
   );
   return response.data;
 };
 
 export const getSingleUserDetail=async (token,id)=>{
-  const response = await axios.get(`https://twirlo-backend-1.vercel.app/api/user/${id}`,{
+  const response = await axios.get(`${apiUrl}/user/${id}`,{
     headers: {
       Authorization: token,
     },
