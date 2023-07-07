@@ -33,41 +33,29 @@ const UserProfile = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { user, setUser, token } = useAuthContext();
-  const { allUser,userAllPost, allPost, dispatch, setLoader } = useDataContext();
+  const { loader, userAllPost, allPost, dispatch, setLoader } =
+    useDataContext();
   const [profile, setProfile] = useState({});
+  const [followLoader, setFollowLoader] = useState(false);
 
   const isAuthUser = userIdFromParam === user?._id;
-
-  const secondUserDetail = allUser?.find(({ _id }) => _id === userIdFromParam);
-
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userIdForFetch = isAuthUser ? user?._id : secondUserDetail._id;
         setLoader(true);
-        if (isAuthUser) {
-          const userData = await getSingleUserDetail(token, user?._id);
-          setUser(userData.user);
-        }
-        await getAllPostOfUser(token, userIdForFetch, dispatch);
+        const userData = await getSingleUserDetail(token, userIdFromParam);
+        setProfile(userData.user);
+        await getAllPostOfUser(token, userIdFromParam, dispatch);
         setLoader(false);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, [userIdFromParam ]);
+  }, [userIdFromParam]);
 
-  // this is for setting profile details of user
-  useEffect(() => {
-    if (isAuthUser) {
-      setProfile(user);
-    } else {
-      setProfile(secondUserDetail);
-    }
-  }, [secondUserDetail]);
-  if (!user) return ;
+  if (!user) return;
 
   const followingUserId = user.following.map(({ _id }) => _id);
   const userAndFollwingUserId = [...followingUserId, user._id];
@@ -75,7 +63,7 @@ const UserProfile = () => {
 
   const handleFollowAndUnfollow = async () => {
     try {
-      setLoader(true);
+      setFollowLoader(true);
       if (isFollwing) {
         await unfollowUser(token, userIdFromParam);
       } else {
@@ -83,14 +71,17 @@ const UserProfile = () => {
       }
       const userData = await getSingleUserDetail(token, user._id);
       setUser(userData.user);
+      setFollowLoader(false);
     } catch (error) {
       console.log(error);
     }
   };
-  const likedPostList=allPost.filter(({likes:{likedBy}})=>likedBy.includes(userIdFromParam) )
+  const likedPostList = allPost.filter(({ likes: { likedBy } }) =>
+    likedBy.includes(userIdFromParam)
+  );
 
-  if(userAllPost.length===0){
-    return <TwirloSpinner/>
+  if (loader) {
+    return <TwirloSpinner />;
   }
 
   return (
@@ -100,13 +91,18 @@ const UserProfile = () => {
           <Avatar size={{ base: 'xl', lg: '2xl' }} src={profile?.pic} />
           {isAuthUser ? (
             <>
-              <Button bgColor={bgColor} onClick={onOpen}>
+              <Button bgColor={bgColor} onClick={onOpen} rounded="full">
                 Edit Profile
               </Button>
               <UserInfoModal isOpen={isOpen} onClose={onClose} />
             </>
           ) : (
-            <Button bgColor="blue.400" onClick={handleFollowAndUnfollow}>
+            <Button
+              bgColor="blue.400"
+              onClick={handleFollowAndUnfollow}
+              isLoading={followLoader}
+              rounded="full"
+            >
               {isFollwing ? 'Unfollow' : 'Follow'}
             </Button>
           )}
@@ -134,7 +130,9 @@ const UserProfile = () => {
               </Flex>
               <Flex gap={2}>
                 <Text fontWeight="bold">{profile?.followers?.length}</Text>
-                <Text>Followers</Text>
+                <Text>
+                  {profile?.followers?.length > 0 ? 'Followers' : 'Follower'}
+                </Text>
               </Flex>
             </Flex>
           </Box>
@@ -152,16 +150,32 @@ const UserProfile = () => {
 
           <TabPanels>
             <TabPanel>
-              {userAllPost.length &&
-                userAllPost.map(post => (
-                  <PostCard key={post?._id} post={post} isUserProfile isUserAllPost />
-                ))}
+              <Flex flexDir="column" alignItems="center">
+                {userAllPost.length === 0 ? (
+                  <Text>No tweet to show</Text>
+                ) : (
+                  userAllPost.map(post => (
+                    <PostCard
+                      key={post?._id}
+                      post={post}
+                      userIdFromParam={userIdFromParam}
+                      isUserProfile
+                      isUserAllPost
+                    />
+                  ))
+                )}
+              </Flex>
             </TabPanel>
             <TabPanel>
-              {likedPostList.length &&
-                likedPostList.map(post => (
-                  <PostCard key={post?._id} post={post} isUserProfile />
-                ))}
+              <Flex flexDir="column" alignItems="center">
+                {likedPostList.length === 0 ? (
+                  <Text>No liked tweet to show</Text>
+                ) : (
+                  likedPostList.map(post => (
+                    <PostCard key={post?._id} post={post} isUserProfile />
+                  ))
+                )}
+              </Flex>
             </TabPanel>
           </TabPanels>
         </Tabs>

@@ -21,6 +21,7 @@ import {
   Spinner,
   Textarea,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 
 import { BiImageAdd } from 'react-icons/bi';
@@ -42,8 +43,8 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
   // const [inputValue, setInputValue] = useState(isEdit ? {content:post.content, imageUrl:post.imageUrl} : initialInputValue);
   const [inputValue, setInputValue] = useState(isEdit ? post : initialInputValue);
   const [uploadLoader, setUploadLoader] = useState(false);
+  const toast=useToast();
 
-  console.log({inputValue})
 
   const handlepostInput = e => {
     setInputValue({
@@ -60,7 +61,7 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
         setInputValue({
           ...inputValue,
           imageUrl: cloudinaryURL,
-        }),
+        }),toast
     });
     setUploadLoader(false);
   };
@@ -93,7 +94,6 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
         setUser(userData.user);
       }
         await getAllPostOfUser(token, user._id, dispatch);
-      // emptyInput();
       setInputValue(inputValue)
       setLoader(false);
     } catch (error) {
@@ -132,7 +132,7 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
             {uploadLoader && <Spinner />}
             {inputValue.imageUrl && (
               <Box h="5rem" w="8rem" position="relative">
-                <Image src={inputValue.imageUrl} objectFit="contain" />
+                <Image src={inputValue.imageUrl} maxH='80px' w='full' objectFit="contain" />
                 <Box>
                   <IconButton
                     icon={<CloseIcon />}
@@ -160,7 +160,7 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
                   <Input
                     type="file"
                     display="none"
-                    accept="image/*, video/*"
+                    accept="image/png, image/jpeg, image/jpg, video/*"
                     onChange={handleImageInput}
                   />
                 </FormControl>
