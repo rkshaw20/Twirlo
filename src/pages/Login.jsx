@@ -57,7 +57,7 @@ const Login = () => {
         title: 'Logged In!',
         description: 'Welcome to Twirlo!',
         status: 'success',
-        duration: 9000,
+        duration: 3000,
       });
       navigate('/');
     } catch (error) {

@@ -24,7 +24,7 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { Link as ReachLink } from 'react-router-dom';
+import { NavLink as ReachLink } from 'react-router-dom';
 import { Flex, Spacer } from '@chakra-ui/react';
 import { AiFillHome, AiFillPlusCircle } from 'react-icons/ai';
 import { MdExplore } from 'react-icons/md';
@@ -83,7 +83,7 @@ export const NavBar = () => {
               _activeLink={{
                 transition: 'none',
                 fontWeight: 'bold',
-                color: 'blue.400',
+                bgColor: 'blue.400',
               }}
             >
               <Icon fontSize="1.5rem" as={AiFillHome} />
@@ -110,7 +110,7 @@ export const NavBar = () => {
               _activeLink={{
                 transition: 'none',
                 fontWeight: 'bold',
-                color: 'blue.400',
+                bgColor: 'blue.400',
               }}
             >
               <Icon fontSize="1.5rem" as={FaSearch} />
@@ -165,7 +165,7 @@ export const NavBar = () => {
               _activeLink={{
                 transition: 'none',
                 fontWeight: 'bold',
-                color: 'blue.400',
+                bgColor: 'blue.400',
               }}
             >
               <Icon fontSize="1.5rem" as={BsFillBookmarkFill} />
@@ -192,7 +192,7 @@ export const NavBar = () => {
               _activeLink={{
                 transition: 'none',
                 fontWeight: 'bold',
-                color: 'blue.400',
+                bgcolor: 'blue.400',
               }}
             >
               <Icon fontSize="1.5rem" as={CgProfile} />

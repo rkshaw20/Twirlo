@@ -71,7 +71,7 @@ const SignUp = () => {
         title: 'Account created!',
         description: 'Welcome to Twirlo!',
         status: 'success',
-        duration: 9000,
+        duration: 3000,
       });
       navigate('/');
     } catch (error) {

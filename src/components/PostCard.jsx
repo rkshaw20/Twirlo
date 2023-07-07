@@ -122,10 +122,13 @@ const PostCard = ({
 
   const handleDelete = async () => {
     try {
-      setLoader(true);
+      // setLoader(true);
       await deletePost(token, postId);
       await getAllPost(token, dispatch);
-      setLoader(false);
+      if(userIdFromParam===user._id){
+        await getAllPostOfUser(token, user._id,dispatch)
+      }
+      // setLoader(false);
     } catch (error) {
       console.log(error);
     }
