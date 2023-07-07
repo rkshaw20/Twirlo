@@ -9,24 +9,24 @@ import {
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import { FaTwitter } from 'react-icons/fa';
 import { AiOutlineTwitter } from 'react-icons/ai';
-
+import { Link } from 'react-router-dom';
 export const Header = () => {
-  
   return (
-    // <div className="header">
     <Box>
       <Flex
         p={{ base: '.2rem', lg: '.4rem' }}
         justifyContent={{ base: 'space-between', lg: 'space-between' }}
       >
-        {/* <IconButton  fontSize={'xl'} color={'blue.400'} icon={<AiOutlineTwitter />} /> */}
-        <Icon  as={FaTwitter} fontSize="2xl" m={2} color={'blue.400'} />
-        <Heading color={'blue.400'}>Twirlo</Heading>
+        <Link to="/">
+          <Icon as={FaTwitter} fontSize="2xl" m={2} color={'blue.400'} />
+        </Link>
+        <Link to="/">
+          <Heading color={'blue.400'}>Twirlo</Heading>
+        </Link>
         <ColorModeSwitcher />
       </Flex>
 
       <hr />
     </Box>
-    // </div>
   );
 };

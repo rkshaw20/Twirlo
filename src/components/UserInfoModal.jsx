@@ -69,7 +69,6 @@ const UserInfoModal = ({ isOpen, onClose }) => {
     }
   };
   const handleImageInput = async e => {
-    console.log('called');
 
     setUploadLoader(true);
     await uploadMedia({

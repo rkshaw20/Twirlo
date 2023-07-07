@@ -22,6 +22,7 @@ import {
   Tab,
   TabList,
   Tabs,
+  Text,
   Textarea,
 } from '@chakra-ui/react';
 import PostCard from '../components/PostCard';
@@ -40,11 +41,9 @@ const Home = () => {
   const { allPost, dispatch, setLoader } = useDataContext();
   const [filterType, setFilterType] = useState('');
 
-  if (!user) 
-    return 
+  if (!user) return <TwirloSpinner />;
 
-  
-  const followingUserId = user.following.map(({ _id }) => _id);
+  const followingUserId = user?.following.map(({ _id }) => _id);
 
   const userAndFollwingUserId = [...followingUserId, user._id];
 
@@ -58,15 +57,15 @@ const Home = () => {
   };
   const filteredPost = getFilteredPost(homePagePosts, filterType);
 
-  if(filteredPost.length===0){
-    return <TwirloSpinner/>
-  }
+  // if(filteredPost.length===0){
+  //   return <TwirloSpinner/>
+  // }
   return (
-    <Flex flexDir="column" justify="center"mt={2} >
-      <Flex>
+    <Flex flexDir="column" justify="center" mt={2} alignItems='center' >
+      <Flex >
         <Heading>Home</Heading>
       </Flex>
-      <Divider />
+      {/* <Divider /> */}
       {/* <Flex flexDir='column'  alignItems='center' > */}
       <Flex w="full">
         <Tabs w="full">
@@ -77,15 +76,15 @@ const Home = () => {
             </Flex>
           </TabList>
         </Tabs>
-      </Flex >
-      <Flex flexDir='column' alignItems='center' >
-      {filteredPost.map(post => (
-        <PostCard key={post._id} post={post} />
-      ))}
+      </Flex>
+      <Flex flexDir="column" alignItems="center">
+        {  filteredPost.length===0 ? <Text>Follow User to see Tweet</Text> :  filteredPost.map(post => (
+          <PostCard key={post._id} post={post} />
+        ))}
       </Flex>
     </Flex>
 
-    // </Flex> 
+    // </Flex>
   );
 };
 

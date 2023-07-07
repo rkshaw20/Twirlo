@@ -94,9 +94,11 @@ const Explore = () => {
            
           </PopoverContent>
         </Popover>
-      </Flex>
+      </Flex >
+<Flex flexDir='column' alignItems='center' > 
       {allPost.length > 0 &&
         allPost.map(post => <PostCard key={post._id} post={post} />)}
+        </Flex>
       <Flex />
     </Flex>
   );

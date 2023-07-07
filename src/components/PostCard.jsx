@@ -46,11 +46,16 @@ import TweetModal from './TweetModal';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-const PostCard = ({ post, isUserProfile, isBookmark, isUserAllPost }) => {
+const PostCard = ({
+  post,
+  userIdFromParam,
+  isUserAllPost,
+  isUserProfile,
+  isBookmark,
+}) => {
   const { token, user, setUser } = useAuthContext();
   const { loader, setLoader, dispatch } = useDataContext();
   const { onOpen, isOpen, onClose } = useDisclosure();
-
   const [btnLoader, setBtnLoader] = useState(false);
 
   const {
@@ -62,25 +67,23 @@ const PostCard = ({ post, isUserProfile, isBookmark, isUserAllPost }) => {
     createdAt,
   } = post;
 
-  // console.log({userIdFromParam});
-  // console.log(user._id);
-
   const isAuthUser = authorId === user?._id;
   const currentDate = new Date();
   const timeOfPost = getHumanizeTimeForOlderPost(currentDate, createdAt);
 
+  // const isLikedByUser = isUserProfile
+  //     ? likedBy.map(({ _id }) => _id).includes(user?._id)
+  //   : likedBy.includes(user?._id);
   const isLikedByUser = isUserProfile
     ? isUserAllPost
       ? likedBy.map(({ _id }) => _id).includes(user._id)
       : likedBy.includes(user._id)
     : likedBy.includes(user?._id);
- 
 
   const isBookmarked = user.bookmarks.includes(postId);
 
   const handleLike = async () => {
     try {
-      // setLoader(true);
       setBtnLoader(true);
       if (!isLikedByUser) {
         await likePostService(token, postId);
@@ -89,13 +92,12 @@ const PostCard = ({ post, isUserProfile, isBookmark, isUserAllPost }) => {
       }
       await getAllPost(token, dispatch);
       if (isUserProfile) {
-        await getAllPostOfUser(token, user._id, dispatch);
+        await getAllPostOfUser(token, userIdFromParam, dispatch);
       }
       if (isBookmark) {
         await getBookmarkPost(token, dispatch);
       }
       setBtnLoader(false);
-      // setLoader(false);
     } catch (error) {
       console.error('Error handling the like:', error);
     }
@@ -103,7 +105,6 @@ const PostCard = ({ post, isUserProfile, isBookmark, isUserAllPost }) => {
 
   const handleBookmark = async () => {
     try {
-      // setLoader(true);
       setBtnLoader(true);
       if (!isBookmarked) {
         await bookmarkPostService(token, postId);
@@ -114,7 +115,6 @@ const PostCard = ({ post, isUserProfile, isBookmark, isUserAllPost }) => {
       const userData = await getSingleUserDetail(token, user._id);
       setUser(userData.user);
       setBtnLoader(false);
-      // setLoader(false);
     } catch (error) {
       console.error('Error handling the bookmark:', error);
     }
@@ -132,7 +132,15 @@ const PostCard = ({ post, isUserProfile, isBookmark, isUserAllPost }) => {
   };
 
   return (
-    <Card m={2} p=".5rem" mb={3} maxH="600px" minW='600px' maxW='600px' >
+    <Card
+      m={2}
+      p=".5rem"
+      mb={3}
+      maxH="600px"
+      w='full'
+      maxW='600px'
+     
+    >
       <CardHeader m={0}>
         <Flex spacing="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -158,9 +166,9 @@ const PostCard = ({ post, isUserProfile, isBookmark, isUserAllPost }) => {
                 aria-label="Options"
                 icon={<BsThreeDotsVertical />}
                 variant="ghost"
-                rounded='full'
+                rounded="full"
               />
-              <MenuList minW='6rem' >
+              <MenuList minW="6rem">
                 <MenuItem
                   isDisabled={loader}
                   icon={<FiEdit />}
@@ -217,8 +225,7 @@ const PostCard = ({ post, isUserProfile, isBookmark, isUserAllPost }) => {
               color={isLikedByUser ? 'red.400' : ''}
               onClick={() => handleLike()}
             ></IconButton>
-            {likeCount>0 && <Text fontSize="1.2rem">{likeCount}</Text> }
-            
+            {likeCount > 0 && <Text fontSize="1.2rem">{likeCount}</Text>}
           </Flex>
           <IconButton
             rounded="full"
@@ -232,13 +239,13 @@ const PostCard = ({ post, isUserProfile, isBookmark, isUserAllPost }) => {
           ></IconButton>{' '}
         </Flex>
 
-        <IconButton
+        {/* <IconButton
           rounded="full"
           p=".5rem"
           fontSize="1.5rem"
           variant="ghost"
           icon={<BiShareAlt />}
-        ></IconButton>
+        ></IconButton> */}
       </CardFooter>
     </Card>
   );

@@ -7,6 +7,7 @@ import React   from 'react';
 import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useDataContext } from '../contexts/DataContextProvider';
 import SideBarUser from './SideBarUser';
+import TwirloSpinner from './TwirloSpinner';
 
 
 
@@ -16,7 +17,7 @@ const SideBar = () => {
   const {token,user}=useAuthContext();
   const {allUser,dispatch,setLoader}=useDataContext();
 
-  if(!user) return;
+  if(!user) return <TwirloSpinner/> ;
   const followingUserId = user.following.map(({ _id }) => _id);
   const userAndFollwingUserId = [...followingUserId, user._id];
 

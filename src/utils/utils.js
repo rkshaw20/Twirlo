@@ -1,3 +1,5 @@
+import { useToast } from "@chakra-ui/react";
+
 export const setLocalStorage = (name, data) =>
   localStorage.setItem(name, JSON.stringify(data));
 
@@ -29,23 +31,27 @@ export const getHumanizeTimeForOlderPost = (currentDate, date) => {
   }
 };
 
-export const uploadMedia = async ({ media, updatePic, toast }) => {
+export const uploadMedia = async ({ media, updatePic,toast}) => {
   const mediaType = media.type.split('/')[0];
   if (mediaType === 'video' && Math.round(media.size / 1024000) > 10) {
-    // showToast({
-    //   toast,
-    //   type: TOAST_TYPE.Error,
-    //   message: 'Video size should be less than 10MB',
-    // });
+  
+    toast({
+      title: 'Error!',
+      status: 'error',
+      description:'video size should be less than 10MB',
+      duration: 9000,
+    });
     return;
   }
 
   if (Math.round(media.size / 1024000) > 4) {
-    // showToast({
-    //   toast,
-    //   type: TOAST_TYPE.Error,
-    //   message: 'Video size should be less than 10MB',
-    // });
+    
+    toast({
+      title: 'Error!',
+      status: 'error',
+      description:'video size should be less than 10MB',
+      duration: 9000,
+    });
     return;
   }
 
@@ -74,10 +80,12 @@ export const uploadMedia = async ({ media, updatePic, toast }) => {
     updatePic({ cloudinaryURL: json.url });
   } catch (error) {
     console.log(error);
-    // showToast({
-    //   toast,
-    //   type: TOAST_TYPE.Error,
-    //   message: 'Media Uploading failed',
-    // });
+  
+    toast({
+      title: 'Error!',
+      status: 'error',
+      description:'media uploading failed',
+      duration: 9000,
+    });
   }
 };

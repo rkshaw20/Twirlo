@@ -50,7 +50,7 @@ export const NavBar = () => {
     toast({
       title: 'Logged Out!',
       status: 'error',
-      duration: 5000,
+      duration: 9000,
     });
   };
 

@@ -1,4 +1,4 @@
-import { Heading } from '@chakra-ui/react';
+import { Flex, Heading } from '@chakra-ui/react';
 import PostCard from '../components/PostCard';
 import { useDataContext } from '../contexts/DataContextProvider';
 import { useAuthContext } from '../contexts/AuthContextProvider';
@@ -19,12 +19,17 @@ useEffect(()=>{
   if(!bookmarks.length) return;
 
   return (
-    <>
-      <Heading size="lg">Bookmark</Heading>
+    <>      <Flex flexDir='column' alignItems='center' >
+
+    <Heading size="lg" mt={2} >Bookmark</Heading>
       {bookmarks.map((post)=>(
         <PostCard key={post._id} post={post} isBookmark />
       ))}
+      </Flex>
+     
     </>
+      
+
   );
 };
 

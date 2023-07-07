@@ -7,7 +7,7 @@ export const AvatarList = ({ onAvatarSelect, onClose }) => {
     onClose();
   };
   return (
-    <Flex flexWrap='wrap' justifyContent="space-between" gap={1}>
+    <Flex flexWrap='wrap' justifyContent="space-between" gap={1} maxW='250px' >
       {avatarList.map((item, i) => (
         <Avatar
           size="md"

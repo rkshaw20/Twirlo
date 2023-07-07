@@ -46,6 +46,8 @@ const RootLayout = () => {
       <GridItem
         as={'aside'}
         area={'aside'}
+        overflowY="scroll"
+        scrollBehavior="smooth"
         display={{ base: 'none', lg: 'block' }}
       >
         <SideBar />

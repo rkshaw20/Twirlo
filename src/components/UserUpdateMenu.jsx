@@ -58,7 +58,7 @@ export const UserUpdateMenu = ({ handleAvatarSelect, handleImageInput }) => {
               Select Avatar
             </Button>
           </PopoverTrigger>
-          <PopoverContent ml="1rem">
+          <PopoverContent ml="1rem" w='full' maxW='250px' >
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverHeader>Select Avatar</PopoverHeader>
