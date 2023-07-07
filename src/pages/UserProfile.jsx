@@ -55,7 +55,7 @@ const UserProfile = () => {
     fetchData();
   }, [userIdFromParam]);
 
-  if (!user) return;
+  if (!user) return <TwirloSpinner />;
 
   const followingUserId = user.following.map(({ _id }) => _id);
   const userAndFollwingUserId = [...followingUserId, user._id];

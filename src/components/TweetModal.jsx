@@ -34,6 +34,7 @@ import { createNewPost, editPost, getAllPost, getAllPostOfUser } from '../servic
 import { getSingleUserDetail } from '../services/AuthServices';
 import { uploadMedia } from '../utils/utils';
 import EmojiPopover from './EmojiPopover';
+import { useParams } from 'react-router-dom';
 
 
 const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
@@ -44,6 +45,7 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
   const [inputValue, setInputValue] = useState(isEdit ? post : initialInputValue);
   const [uploadLoader, setUploadLoader] = useState(false);
   const toast=useToast();
+  const { userId: userIdFromParam } = useParams();
 
 
   const handlepostInput = e => {
@@ -93,8 +95,10 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
         const userData = await getSingleUserDetail(token, user._id);
         setUser(userData.user);
       }
+      if(userIdFromParam===user._id){
         await getAllPostOfUser(token, user._id, dispatch);
-      setInputValue(inputValue)
+      }
+      setInputValue(initialInputValue);
       setLoader(false);
     } catch (error) {
       console.log('Error in posting tweet');
