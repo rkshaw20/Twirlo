@@ -9,13 +9,9 @@ import { useDataContext } from '../contexts/DataContextProvider';
 import SideBarUser from './SideBarUser';
 import TwirloSpinner from './TwirloSpinner';
 
-
-
-
-
 const SideBar = () => {
-  const {token,user}=useAuthContext();
-  const {allUser,dispatch,setLoader}=useDataContext();
+  const {user}=useAuthContext();
+  const {allUser}=useDataContext();
 
   if(!user) return <TwirloSpinner/> ;
   const followingUserId = user.following.map(({ _id }) => _id);

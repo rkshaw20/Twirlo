@@ -4,14 +4,7 @@ import {
   Button,
   Flex,
   FormControl,
-  FormLabel,
-  Icon,
-  IconButton,
   Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -19,13 +12,11 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Spinner,
 } from '@chakra-ui/react';
 import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useDataContext } from '../contexts/DataContextProvider';
 import { getSingleUserDetail, updateUserInfo } from '../services/AuthServices';
 import { useState } from 'react';
-import { AiFillCamera } from 'react-icons/ai';
 import { uploadMedia } from '../utils/utils';
 import { UserUpdateMenu } from './UserUpdateMenu';
 
@@ -46,15 +37,13 @@ const UserInfoModal = ({ isOpen, onClose }) => {
   };
 
   const handleAvatarSelect = e => {
-    setUserInfo(prev=>({...prev, pic:e.target.src}))
+    setUserInfo(prev => ({ ...prev, pic: e.target.src }));
   };
   const emptyInput = () => {
     onClose();
     setUserInfo(user);
   };
-  // const isInfoChanged = Object.keys(userInfo).some(
-  //   item => userInfo[item] !== user[item]
-  // );
+
   const handleFormSubmit = async e => {
     e.preventDefault();
     try {
@@ -68,8 +57,8 @@ const UserInfoModal = ({ isOpen, onClose }) => {
       console.log('Something went wrong');
     }
   };
-  const handleImageInput = async e => {
 
+  const handleImageInput = async e => {
     setUploadLoader(true);
     await uploadMedia({
       media: e.target.files[0],
@@ -81,6 +70,7 @@ const UserInfoModal = ({ isOpen, onClose }) => {
     });
     setUploadLoader(false);
   };
+  
   return (
     <Modal isOpen={isOpen} onClose={emptyInput}>
       <ModalOverlay />

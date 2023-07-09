@@ -1,14 +1,6 @@
-import {
-  Box,
-  Divider,
-  Flex,
-  Heading,
-  Icon,
-  IconButton,
-} from '@chakra-ui/react';
+import { Box, Flex, Heading, Icon } from '@chakra-ui/react';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import { FaTwitter } from 'react-icons/fa';
-import { AiOutlineTwitter } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 export const Header = () => {
   return (

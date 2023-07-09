@@ -9,7 +9,6 @@ import SignUp from './pages/SignUp';
 import Explore from './pages/Explore';
 import Bookmark from './pages/Bookmark';
 import UserProfile from './pages/UserProfile';
-import PostDetails from './pages/PostDetails';
 import { RequireAuth } from './components/RequireAuth';
 import theme from './styles/theme';
 
@@ -31,7 +30,6 @@ const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <Home /> },
-      { path: '/post', element: <PostDetails /> },
       { path: '/explore', element: <Explore /> },
       { path: '/bookmark', element: <Bookmark /> },
       { path: '/profile/:userId', element: <UserProfile /> },

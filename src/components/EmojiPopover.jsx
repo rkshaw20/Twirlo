@@ -14,7 +14,7 @@ import { FaRegSmile } from 'react-icons/fa';
 const EmojiPopover = ({ onEmojiClick }) => {
   const colorModeValue = useColorModeValue('light', 'dark');
   return (
-    <Popover isLazy >
+    <Popover isLazy>
       <PopoverTrigger>
         <IconButton
           icon={FaRegSmile()}
@@ -25,7 +25,7 @@ const EmojiPopover = ({ onEmojiClick }) => {
       <PopoverContent>
         <PopoverArrow />
         <PopoverCloseButton />
-        <PopoverBody p={0} w='fit-content' >
+        <PopoverBody p={0} w="fit-content">
           <EmojiPicker
             onEmojiClick={onEmojiClick}
             theme={colorModeValue}

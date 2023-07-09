@@ -25,9 +25,9 @@ import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useDataContext } from '../contexts/DataContextProvider';
 
 const SignUp = () => {
-  const {  setToken } = useAuthContext();
-  const {loader,setLoader}=useDataContext();
-  const toast=useToast()
+  const { setToken } = useAuthContext();
+  const { loader, setLoader } = useDataContext();
+  const toast = useToast();
 
   const [showPassword, setShowPassword] = useState(false);
   const [userInput, setUserInput] = useState({
@@ -41,11 +41,9 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
-  const handleUserInput = e =>{
-    
+  const handleUserInput = e => {
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
-
-  }
+  };
 
   const handleFormSubmit = async (e, input) => {
     e.preventDefault();
@@ -55,8 +53,8 @@ const SignUp = () => {
       return;
     }
     try {
-        setLoader(true);
-       await SignUpService({
+      setLoader(true);
+      await SignUpService({
         firstName,
         lastName,
         username,
@@ -78,6 +76,7 @@ const SignUp = () => {
       console.log('error', error);
     }
   };
+  
   return (
     <div className="signup-card">
       <Flex
@@ -188,7 +187,7 @@ const SignUp = () => {
                 <Stack spacing={10} pt={2}>
                   <Button
                     type="submit"
-                    isLoading ={loader ? true : false}
+                    isLoading={loader ? true : false}
                     loadingText="signing up"
                     size="lg"
                     bg={'blue.400'}

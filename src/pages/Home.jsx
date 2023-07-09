@@ -1,44 +1,20 @@
 import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
   Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Icon,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Select,
-  Spacer,
-  Spinner,
   Tab,
   TabList,
   Tabs,
   Text,
-  Textarea,
 } from '@chakra-ui/react';
 import PostCard from '../components/PostCard';
 import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useDataContext } from '../contexts/DataContextProvider';
-import { getFollowing } from '../utils/utils';
-import { useEffect } from 'react';
-import { getAllPost } from '../services/DataServices';
-import { getSingleUserDetail } from '../services/AuthServices';
+import { getFilteredPost } from '../utils/utils';
 import { useState } from 'react';
-import { getFilteredPost } from '../utils/getFilteredPost';
 import TwirloSpinner from '../components/TwirloSpinner';
 
 const Home = () => {
-  const { token, user, setUser } = useAuthContext();
-  const { allPost, dispatch, setLoader } = useDataContext();
+  const {  user } = useAuthContext();
+  const { allPost, loader } = useDataContext();
   const [filterType, setFilterType] = useState('');
 
   if (!user) return <TwirloSpinner />;
@@ -57,16 +33,11 @@ const Home = () => {
   };
   const filteredPost = getFilteredPost(homePagePosts, filterType);
 
-  // if(filteredPost.length===0){
-  //   return <TwirloSpinner/>
-  // }
+  if(loader){
+    return <TwirloSpinner/>
+  }
   return (
     <Flex flexDir="column" justify="center" mt={2} alignItems='center' >
-      <Flex >
-        <Heading>Home</Heading>
-      </Flex>
-      {/* <Divider /> */}
-      {/* <Flex flexDir='column'  alignItems='center' > */}
       <Flex w="full">
         <Tabs w="full">
           <TabList>
@@ -83,8 +54,6 @@ const Home = () => {
         ))}
       </Flex>
     </Flex>
-
-    // </Flex>
   );
 };
 

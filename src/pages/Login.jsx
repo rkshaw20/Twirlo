@@ -4,14 +4,12 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Checkbox,
   Stack,
   Link,
   Button,
   Heading,
   Text,
   useColorModeValue,
-  Center,
   useToast,
 } from '@chakra-ui/react';
 import { Link as ReachLink, useNavigate } from 'react-router-dom';
@@ -20,12 +18,11 @@ import { loginService } from '../services/AuthServices';
 import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useState } from 'react';
 import { setLocalStorage } from '../utils/utils';
-import jwtDecode from 'jwt-decode';
-import { useDataContext } from '../contexts/DataContextProvider';
 
 const Login = () => {
   const { setToken } = useAuthContext();
-  const { loader, setLoader } = useDataContext();
+  const [guestLoginLoader, setGuestLoginLoader] = useState(false);
+  const [loginLoader, setLoginLoader] = useState(false);
 
   const [userInput, setUserInput] = useState({ email: '', password: '' });
   const navigate = useNavigate();
@@ -40,19 +37,20 @@ const Login = () => {
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  const hanldeGuestLogin = e => {
+  const hanldeGuestLogin = (e, type) => {
     setUserInput(guestUser);
-    handleFormSubmit(e, guestUser);
+    handleFormSubmit(e, guestUser, type);
   };
 
-  const handleFormSubmit = async (e, input) => {
+  const handleFormSubmit = async (e, input, type) => {
     e.preventDefault();
     try {
-      setLoader(true);
+      type === 'guest' ? setGuestLoginLoader(true) : setLoginLoader(true);
       const { token } = await loginService(input);
       setLocalStorage('token', token);
       setToken(token);
-      setLoader(false);
+      type === 'guest' ? setGuestLoginLoader(false) : setLoginLoader(false);
+
       toast({
         title: 'Logged In!',
         description: 'Welcome to Twirlo!',
@@ -85,8 +83,8 @@ const Login = () => {
           boxShadow={'lg'}
           p={8}
         >
-          <Stack  >
-            <form onSubmit={e => handleFormSubmit(e, userInput)}>
+          <Stack>
+            <form onSubmit={e => handleFormSubmit(e, userInput, 'login')}>
               <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
                 <Input
@@ -111,7 +109,7 @@ const Login = () => {
               <Stack spacing={3}>
                 <Button
                   type="submit"
-                  isLoading={loader ? true : false}
+                  isLoading={loginLoader ? true : false}
                   loadingText="signing in"
                   mt={3}
                   bg={'blue.400'}
@@ -123,19 +121,19 @@ const Login = () => {
                   Sign in
                 </Button>
                 <Button
-                  isLoading={loader ? true : false}
+                  isLoading={guestLoginLoader ? true : false}
                   loadingText="signing in"
                   bg={'blue.400'}
                   color={'white'}
                   _hover={{
                     bg: 'blue.500',
                   }}
-                  onClick={hanldeGuestLogin}
+                  onClick={e => hanldeGuestLogin(e, 'guest')}
                 >
                   Sign in as a Guest
                 </Button>
               </Stack>
-              <Stack mt={2} >
+              <Stack mt={2}>
                 <Text align={'center'}>
                   New User?{' '}
                   <Link color={'blue.400'} as={ReachLink} to="/signup">

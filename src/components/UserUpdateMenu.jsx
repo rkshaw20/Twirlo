@@ -28,7 +28,6 @@ export const UserUpdateMenu = ({ handleAvatarSelect, handleImageInput }) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const imageRef = useRef(null);
 
- 
   return (
     <Menu>
       <MenuButton
@@ -58,7 +57,7 @@ export const UserUpdateMenu = ({ handleAvatarSelect, handleImageInput }) => {
               Select Avatar
             </Button>
           </PopoverTrigger>
-          <PopoverContent ml="1rem" w='full' maxW='250px' >
+          <PopoverContent ml="1rem" w="full" maxW="250px">
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverHeader>Select Avatar</PopoverHeader>
@@ -77,9 +76,7 @@ export const UserUpdateMenu = ({ handleAvatarSelect, handleImageInput }) => {
           onClick={() => imageRef.current.click()}
         >
           <FormControl>
-            <FormLabel m={0} >
-              Upload
-            </FormLabel>
+            <FormLabel m={0}>Upload</FormLabel>
             <Input
               ref={imageRef}
               type="file"

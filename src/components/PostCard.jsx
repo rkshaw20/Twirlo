@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Card,
   CardBody,
   CardFooter,
@@ -15,8 +14,6 @@ import {
   MenuItem,
   MenuList,
   Text,
-  chakra,
-  color,
   useDisclosure,
 } from '@chakra-ui/react';
 import {
@@ -25,7 +22,6 @@ import {
   BsBookmarkFill,
 } from 'react-icons/bs';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-import { BiShareAlt } from 'react-icons/bi';
 import { FiEdit } from 'react-icons/fi';
 import { AiFillDelete } from 'react-icons/ai';
 import { getHumanizeTimeForOlderPost } from '../utils/utils';
@@ -44,7 +40,7 @@ import { useDataContext } from '../contexts/DataContextProvider';
 import { getSingleUserDetail } from '../services/AuthServices';
 import TweetModal from './TweetModal';
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const PostCard = ({
   post,
@@ -71,9 +67,6 @@ const PostCard = ({
   const currentDate = new Date();
   const timeOfPost = getHumanizeTimeForOlderPost(currentDate, createdAt);
 
-  // const isLikedByUser = isUserProfile
-  //     ? likedBy.map(({ _id }) => _id).includes(user?._id)
-  //   : likedBy.includes(user?._id);
   const isLikedByUser = isUserProfile
     ? isUserAllPost
       ? likedBy.map(({ _id }) => _id).includes(user._id)
@@ -122,28 +115,20 @@ const PostCard = ({
 
   const handleDelete = async () => {
     try {
-      // setLoader(true);
+      setLoader(true);
       await deletePost(token, postId);
       await getAllPost(token, dispatch);
-      if(userIdFromParam===user._id){
-        await getAllPostOfUser(token, user._id,dispatch)
+      if (userIdFromParam === user._id) {
+        await getAllPostOfUser(token, user._id, dispatch);
       }
-      // setLoader(false);
+      setLoader(false);
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <Card
-      m={2}
-      p=".5rem"
-      mb={3}
-      maxH="600px"
-      w='full'
-      maxW='600px'
-     
-    >
+    <Card m={2} p=".5rem" mb={3} maxH="600px" w="full" maxW="600px">
       <CardHeader m={0}>
         <Flex spacing="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -241,14 +226,6 @@ const PostCard = ({
             onClick={() => handleBookmark()}
           ></IconButton>{' '}
         </Flex>
-
-        {/* <IconButton
-          rounded="full"
-          p=".5rem"
-          fontSize="1.5rem"
-          variant="ghost"
-          icon={<BiShareAlt />}
-        ></IconButton> */}
       </CardFooter>
     </Card>
   );

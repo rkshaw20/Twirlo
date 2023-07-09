@@ -1,14 +1,8 @@
-import { Flex, Spinner } from "@chakra-ui/react"
+import { Flex, Spinner } from '@chakra-ui/react';
 
-
-
-const TwirloSpinner=()=>{
-    return(
-        <Flex
-      align="center"
-      justify="center"
-      minHeight="100dvh"
-    >
+const TwirloSpinner = () => {
+  return (
+    <Flex align="center" justify="center" minHeight="100dvh">
       <Spinner
         type="twitter"
         thickness="4px"
@@ -17,6 +11,6 @@ const TwirloSpinner=()=>{
         size="xl"
       />
     </Flex>
-    )
-}
+  );
+};
 export default TwirloSpinner;

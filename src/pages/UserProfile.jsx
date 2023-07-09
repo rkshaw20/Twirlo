@@ -22,7 +22,7 @@ import {
   unfollowUser,
 } from '../services/DataServices';
 import { useEffect, useState } from 'react';
-import { getSingleUserDetail, updateUserInfo } from '../services/AuthServices';
+import { getSingleUserDetail } from '../services/AuthServices';
 import UserInfoModal from '../components/UserInfoModal';
 import { useParams } from 'react-router-dom';
 import TwirloSpinner from '../components/TwirloSpinner';
@@ -33,7 +33,7 @@ const UserProfile = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { user, setUser, token } = useAuthContext();
-  const { loader, userAllPost, allPost, dispatch, setLoader } =
+  const { userAllPost, allPost, dispatch, setLoader } =
     useDataContext();
   const [profile, setProfile] = useState({});
   const [followLoader, setFollowLoader] = useState(false);
@@ -80,7 +80,7 @@ const UserProfile = () => {
     likedBy.includes(userIdFromParam)
   );
 
-  if (loader) {
+  if (!userAllPost.length) {
     return <TwirloSpinner />;
   }
 

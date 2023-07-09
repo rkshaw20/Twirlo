@@ -17,17 +17,14 @@ import {
   PopoverTrigger,
   Stack,
   Text,
-  color,
   useBreakpointValue,
-  useColorMode,
   useColorModeValue,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
 import { NavLink as ReachLink } from 'react-router-dom';
-import { Flex, Spacer } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { AiFillHome, AiFillPlusCircle } from 'react-icons/ai';
-import { MdExplore } from 'react-icons/md';
 import { BsFillBookmarkFill } from 'react-icons/bs';
 import { FaSearch } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
@@ -40,7 +37,7 @@ export const NavBar = () => {
   const { onOpen, isOpen, onClose } = useDisclosure();
   const bgColor = useColorModeValue('gray.300', 'gray.600');
   const flexDirection = useBreakpointValue({ base: 'row', lg: 'column' });
-  const toast=useToast();
+  const toast = useToast();
 
   const handleLogout = () => {
     removeLocalStorage('token');
@@ -66,6 +63,7 @@ export const NavBar = () => {
           height="full"
           w="full"
           spacing={3}
+          gap={{ base: '', lg: '.5rem' }}
           p={{ base: '.2rem', lg: '1rem' }}
           flexDir={flexDirection}
           justifyContent={{ base: 'space-between', lg: 'flex-start' }}
@@ -76,14 +74,17 @@ export const NavBar = () => {
               to="/"
               display="inline-flex"
               alignItems="center"
-              _hover={{ backgroundColor: bgColor }}
+              _hover={{ base: '', lg: { bgColor: bgColor } }}
               rounded="3xl"
-              w={{ base: '50px', lg: '150px' }}
+              w={{ base: '50px', lg: '170px' }}
               pl="1rem"
               _activeLink={{
-                transition: 'none',
-                fontWeight: 'bold',
-                bgColor: 'blue.400',
+                base: '',
+                lg: {
+                  transition: 'none',
+                  fontWeight: 'bold',
+                  bgColor: 'blue.400',
+                },
               }}
             >
               <Icon fontSize="1.5rem" as={AiFillHome} />
@@ -103,14 +104,17 @@ export const NavBar = () => {
               to="/explore"
               display="inline-flex"
               alignItems="center"
-              _hover={{ backgroundColor: bgColor }}
+              _hover={{ base: '', lg: { bgColor: bgColor } }}
               rounded="3xl"
-              w={{ base: '50px', lg: '150px' }}
+              w={{ base: '50px', lg: '170px' }}
               pl="1rem"
               _activeLink={{
-                transition: 'none',
-                fontWeight: 'bold',
-                bgColor: 'blue.400',
+                base: '',
+                lg: {
+                  transition: 'none',
+                  fontWeight: 'bold',
+                  bgColor: 'blue.400',
+                },
               }}
             >
               <Icon fontSize="1.5rem" as={FaSearch} />
@@ -158,14 +162,17 @@ export const NavBar = () => {
               to="/bookmark"
               display="inline-flex"
               alignItems="center"
-              _hover={{ backgroundColor: bgColor }}
+              _hover={{ base: '', lg: { bgColor: bgColor } }}
               rounded="3xl"
-              w={{ base: '50px', lg: '150px' }}
+              w={{ base: '50px', lg: '170px' }}
               pl="1rem"
               _activeLink={{
-                transition: 'none',
-                fontWeight: 'bold',
-                bgColor: 'blue.400',
+                base: '',
+                lg: {
+                  transition: 'none',
+                  fontWeight: 'bold',
+                  bgColor: 'blue.400',
+                },
               }}
             >
               <Icon fontSize="1.5rem" as={BsFillBookmarkFill} />
@@ -185,14 +192,17 @@ export const NavBar = () => {
               to={`/profile/${user?._id}`}
               display="inline-flex"
               alignItems="center"
-              _hover={{ backgroundColor: bgColor }}
+              _hover={{ base: '', lg: { bgColor: bgColor } }}
               rounded="3xl"
-              w={{ base: '50px', lg: '150px' }}
+              w={{ base: '50px', lg: '170px' }}
               pl="1rem"
               _activeLink={{
-                transition: 'none',
-                fontWeight: 'bold',
-                bgcolor: 'blue.400',
+                base: '',
+                lg: {
+                  transition: 'none',
+                  fontWeight: 'bold',
+                  bgColor: 'blue.400',
+                },
               }}
             >
               <Icon fontSize="1.5rem" as={CgProfile} />
@@ -260,7 +270,6 @@ export const NavBar = () => {
               </Flex>
             </MenuButton>
             <MenuList placement="top-start">
-              
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </MenuList>
           </Menu>

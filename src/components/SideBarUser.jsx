@@ -1,23 +1,22 @@
 import { Avatar, Box, Button, Flex, Text } from '@chakra-ui/react';
 import { followUser } from '../services/DataServices';
 import { useAuthContext } from '../contexts/AuthContextProvider';
-import { useDataContext } from '../contexts/DataContextProvider';
 import { getSingleUserDetail } from '../services/AuthServices';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const SideBarUser = ({ userInfo ,isSearch }) => {
+const SideBarUser = ({ userInfo, isSearch }) => {
   const { token, user, setUser } = useAuthContext();
-  const [followLoader,setFollowLoader]=useState(false)
-  const { _id, firstName,lastName, username, pic } = userInfo;
+  const [followLoader, setFollowLoader] = useState(false);
+  const { _id, firstName, lastName, username, pic } = userInfo;
 
   const handleFollow = async () => {
     try {
-      setFollowLoader(true)
+      setFollowLoader(true);
       await followUser(token, _id);
-      const userData =await getSingleUserDetail(token, user._id);
+      const userData = await getSingleUserDetail(token, user._id);
       setUser(userData.user);
-      setFollowLoader(false)
+      setFollowLoader(false);
     } catch (error) {
       console.log('Error in following', error);
     }
@@ -31,16 +30,17 @@ const SideBarUser = ({ userInfo ,isSearch }) => {
         </Link>
         <Text fontSize="xs">@{username}</Text>
       </Box>
-      {!isSearch &&  <Button
-        bgColor='blue.400'
-        ml="auto"
-        rounded="full"
-        isLoading={followLoader}
-        onClick={handleFollow}
-      >
-        Follow
-      </Button>}
-     
+      {!isSearch && (
+        <Button
+          bgColor="blue.400"
+          ml="auto"
+          rounded="full"
+          isLoading={followLoader}
+          onClick={handleFollow}
+        >
+          Follow
+        </Button>
+      )}
     </Flex>
   );
 };

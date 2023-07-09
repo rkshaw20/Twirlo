@@ -47,7 +47,7 @@ export const getAllPostOfUser = async (token, id, dispatch) => {
 // like a post
 export const likePostService = async (token, postId) => {
   try {
-    const response = await axios.post(
+    await axios.post(
       `${apiUrl}/post/like`,
       {
         postId: postId,
@@ -66,7 +66,7 @@ export const likePostService = async (token, postId) => {
 // dislike a post
 export const dislikePostService = async (token, postId) => {
   try {
-    const response = await axios.post(
+    await axios.post(
       `${apiUrl}/post/dislike`,
       {
         postId: postId,
@@ -164,7 +164,7 @@ export const editPost = async (token, inputData, dispatch) => {
       }
     );
     dispatch({ type: TYPE.EDIT_POST, payload: inputData });
-    console.log({response});
+    console.log({ response });
   } catch (error) {
     console.log('edit post error', error);
   }
@@ -207,7 +207,7 @@ export const unfollowUser = async (token, userId) => {
   try {
     console.log('unfollow');
 
-    const response=await axios.post(
+    const response = await axios.post(
       `${apiUrl}/user/unfollow`,
 
       {

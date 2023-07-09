@@ -11,16 +11,13 @@ const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(getLocalStorage('user'));
   const [token, setToken] = useState(getLocalStorage('token'));
 
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const decodedToken = jwtDecode(token);
         const userData = await getSingleUserDetail(token, decodedToken._id);
         setLocalStorage('user', userData.user);
-        setUser(userData.user)
-
+        setUser(userData.user);
       } catch (error) {
         console.log(error);
       }

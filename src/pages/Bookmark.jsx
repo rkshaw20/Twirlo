@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { getSingleUserDetail } from '../services/AuthServices';
 import { getBookmarkPost } from '../services/DataServices';
 import { useState } from 'react';
+import TwirloSpinner from '../components/TwirloSpinner';
 
 const Bookmark = () => {
   const {  token  } = useAuthContext();
@@ -16,7 +17,7 @@ useEffect(()=>{
   getBookmarkPost(token,dispatch,setLoader)
 },[])
 
-  if(!bookmarks.length) return;
+  if(!bookmarks.length) return <TwirloSpinner/>
 
   return (
     <>      <Flex flexDir='column' alignItems='center' >

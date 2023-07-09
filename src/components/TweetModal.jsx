@@ -20,7 +20,6 @@ import {
   Spacer,
   Spinner,
   Textarea,
-  useDisclosure,
   useToast,
 } from '@chakra-ui/react';
 
@@ -30,23 +29,27 @@ import { CloseIcon } from '@chakra-ui/icons';
 import { useAuthContext } from '../contexts/AuthContextProvider';
 import { useState } from 'react';
 import { useDataContext } from '../contexts/DataContextProvider';
-import { createNewPost, editPost, getAllPost, getAllPostOfUser } from '../services/DataServices';
+import {
+  createNewPost,
+  editPost,
+  getAllPost,
+  getAllPostOfUser,
+} from '../services/DataServices';
 import { getSingleUserDetail } from '../services/AuthServices';
 import { uploadMedia } from '../utils/utils';
 import EmojiPopover from './EmojiPopover';
 import { useParams } from 'react-router-dom';
 
-
 const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
   const { user, setUser, token } = useAuthContext();
   const { setLoader, dispatch } = useDataContext();
   const initialInputValue = { content: '', imageUrl: '' };
-  // const [inputValue, setInputValue] = useState(isEdit ? {content:post.content, imageUrl:post.imageUrl} : initialInputValue);
-  const [inputValue, setInputValue] = useState(isEdit ? post : initialInputValue);
+  const [inputValue, setInputValue] = useState(
+    isEdit ? post : initialInputValue
+  );
   const [uploadLoader, setUploadLoader] = useState(false);
-  const toast=useToast();
+  const toast = useToast();
   const { userId: userIdFromParam } = useParams();
-
 
   const handlepostInput = e => {
     setInputValue({
@@ -63,7 +66,8 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
         setInputValue({
           ...inputValue,
           imageUrl: cloudinaryURL,
-        }),toast
+        }),
+      toast,
     });
     setUploadLoader(false);
   };
@@ -73,7 +77,7 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
   };
   const emptyInput = () => {
     onClose();
-    setInputValue(isEdit ? post: initialInputValue);
+    setInputValue(isEdit ? post : initialInputValue);
   };
 
   const hanldeImageRemove = () => {
@@ -89,13 +93,13 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
       setLoader(true);
 
       if (isEdit) {
-       await editPost(token, inputValue, dispatch);
+        await editPost(token, inputValue, dispatch);
       } else {
         await createNewPost(token, inputValue);
         const userData = await getSingleUserDetail(token, user._id);
         setUser(userData.user);
       }
-      if(userIdFromParam===user._id){
+      if (userIdFromParam === user._id) {
         await getAllPostOfUser(token, user._id, dispatch);
       }
       setInputValue(initialInputValue);
@@ -136,18 +140,22 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
             {uploadLoader && <Spinner />}
             {inputValue.imageUrl && (
               <Box h="5rem" w="8rem" position="relative">
-                <Image src={inputValue.imageUrl} maxH='80px' w='full' objectFit="contain" />
+                <Image
+                  src={inputValue.imageUrl}
+                  maxH="80px"
+                  w="full"
+                  objectFit="contain"
+                />
                 <Box>
                   <IconButton
                     icon={<CloseIcon />}
                     rounded="full"
                     size="xs"
                     onClick={hanldeImageRemove}
-                    position='absolute'
+                    position="absolute"
                     top={0}
                     right={0}
-                    zIndex= '999'
-
+                    zIndex="999"
                   />
                 </Box>
               </Box>

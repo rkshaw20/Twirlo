@@ -1,5 +1,3 @@
-import { useToast } from "@chakra-ui/react";
-
 export const setLocalStorage = (name, data) =>
   localStorage.setItem(name, JSON.stringify(data));
 
@@ -30,6 +28,28 @@ export const getHumanizeTimeForOlderPost = (currentDate, date) => {
     }
   }
 };
+
+const sortByDate = (posts, filterType) => {
+  if (filterType === 'latest') {
+    return [...posts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  } else {
+    return posts;
+  }
+};
+
+const sortByLikeCount = (posts, filterType) => {
+  if (filterType === 'trending') {
+    return [...posts].sort((a, b) => b.likes.likeCount - a.likes.likeCount);
+  } else {
+    return posts;
+  }
+};
+
+export const getFilteredPost = (posts, filterType) => {
+  const filterFunctions = [sortByDate, sortByLikeCount];
+  return filterFunctions.reduce((acc, func) => func(acc, filterType), posts);
+};
+
 
 export const uploadMedia = async ({ media, updatePic,toast}) => {
   const mediaType = media.type.split('/')[0];
