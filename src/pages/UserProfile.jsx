@@ -84,6 +84,7 @@ const UserProfile = () => {
     return <TwirloSpinner />;
   }
 
+  
   return (
     <Flex flexDir="column" gap={2} p={2}>
       <Flex flexDir="column">

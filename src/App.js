@@ -11,6 +11,7 @@ import Bookmark from './pages/Bookmark';
 import UserProfile from './pages/UserProfile';
 import { RequireAuth } from './components/RequireAuth';
 import theme from './styles/theme';
+import Error from './pages/Error';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/',
+    errorElement:<Error/>,
     element: (
       <RequireAuth>
         <RootLayout />
