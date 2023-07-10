@@ -53,7 +53,7 @@ const UserProfile = () => {
       }
     };
     fetchData();
-  }, [userIdFromParam]);
+  }, [userIdFromParam,user]);
 
   if (!user) return <TwirloSpinner />;
 
