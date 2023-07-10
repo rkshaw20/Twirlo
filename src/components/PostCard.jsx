@@ -188,9 +188,13 @@ const PostCard = ({
       </CardBody>
 
       {imageUrl && imageUrl.includes('.mp4') ? (
-        <Container ml="1.2rem"
-        mr="1.2rem"
-        rounded="2xl"><video controls src={imageUrl} /></Container>  
+       <Container ml="1.2rem" mr="1.2rem">
+       <video
+         style={{ borderRadius: "16px" }}
+         controls
+         src={imageUrl}
+       />
+     </Container>
       ) : (
         <Image
           ml="1.2rem"
