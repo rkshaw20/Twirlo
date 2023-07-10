@@ -59,7 +59,7 @@ export const uploadMedia = async ({ media, updatePic,toast}) => {
       title: 'Error!',
       status: 'error',
       description:'video size should be less than 10MB',
-      duration: 9000,
+      duration: 1000,
     });
     return;
   }
@@ -70,7 +70,7 @@ export const uploadMedia = async ({ media, updatePic,toast}) => {
       title: 'Error!',
       status: 'error',
       description:'video size should be less than 10MB',
-      duration: 9000,
+      duration: 1000,
     });
     return;
   }
@@ -105,7 +105,7 @@ export const uploadMedia = async ({ media, updatePic,toast}) => {
       title: 'Error!',
       status: 'error',
       description:'media uploading failed',
-      duration: 9000,
+      duration: 1000,
     });
   }
 };

@@ -55,7 +55,7 @@ const Login = () => {
         title: 'Logged In!',
         description: 'Welcome to Twirlo!',
         status: 'success',
-        duration: 3000,
+        duration: 2000,
       });
       navigate('/');
     } catch (error) {
@@ -63,7 +63,7 @@ const Login = () => {
       toast({
         title: error.response.data.message ,
         status: 'error',
-        duration: 3000,
+        duration: 2000,
       });
     }
   };

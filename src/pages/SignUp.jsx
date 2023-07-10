@@ -53,7 +53,7 @@ const SignUp = () => {
         return toast({
           title: 'Password length must be atleast 6 characters.',
           status: 'error',
-          duration: 3000,
+          duration: 2000,
         });
         
       }
@@ -61,7 +61,7 @@ const SignUp = () => {
       return toast({
         title: 'Password and Confirm Password are different.',
         status: 'error',
-        duration: 3000,
+        duration: 2000,
       });
     }
     try {
