@@ -187,14 +187,10 @@ const PostCard = ({
         <Text>{content}</Text>
       </CardBody>
 
-      {imageUrl && imageUrl.includes('.mp4') ? (
-       <Container ml="1.2rem" mr="1.2rem">
-       <video
-         style={{ borderRadius: "16px" }}
-         controls
-         src={imageUrl}
-       />
-     </Container>
+      {imageUrl ? imageUrl.includes('.mp4') ? (
+        <Container ml="1.2rem" mr="1.2rem">
+          <video style={{ borderRadius: '16px' }} controls src={imageUrl} />
+        </Container>
       ) : (
         <Image
           ml="1.2rem"
@@ -206,7 +202,7 @@ const PostCard = ({
           src={imageUrl}
           alt="Chakra UI"
         />
-      )}
+      ):null}
 
       <CardFooter p="0 1rem" mt={2} justify="space-between" flexWrap="wrap">
         <Flex gap={4}>

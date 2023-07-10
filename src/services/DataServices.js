@@ -132,7 +132,7 @@ export const getBookmarkPost = async (token, dispatch) => {
 
 export const createNewPost = async (token, inputData) => {
   try {
-    const response = await axios.post(
+    await axios.post(
       `${apiUrl}/post`,
       {
         ...inputData,
@@ -143,7 +143,6 @@ export const createNewPost = async (token, inputData) => {
         },
       }
     );
-    console.log({ response });
   } catch (error) {
     console.log(error);
   }
