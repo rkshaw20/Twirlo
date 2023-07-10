@@ -80,7 +80,7 @@ const UserProfile = () => {
     likedBy.includes(userIdFromParam)
   );
 
-  if (!userAllPost.length || loader ) {
+  if ( loader ) {
     return <TwirloSpinner />;
   }
 
