@@ -35,3 +35,25 @@ Twirlo is a social media site offering various features to enhance your social n
 - **Explore Feed:** This feature allows users to discover new content, explore different topics, and engage with a wider community beyond their immediate connections.
 
 - **Bookmark Post Feed & Likes Post Feed:** Twirlo enables users to bookmark and like posts they find interesting or want to revisit later.
+
+  ## UI Preview
+Login Page
+![login twirlo](https://github.com/rkshaw20/Twirlo/assets/73245914/95245538-cdd0-41f0-82fa-bbd2f3b4d146)
+SignUp Page
+![sigup twirlo](https://github.com/rkshaw20/Twirlo/assets/73245914/24a790dc-a276-4939-a983-19d15546f197)
+
+Home Page
+![home twirlo](https://github.com/rkshaw20/Twirlo/assets/73245914/07d86121-a40d-427a-807c-8d6993a15e17)
+Explore Page
+![explore twirlo](https://github.com/rkshaw20/Twirlo/assets/73245914/9917be7f-ce3a-4516-b65e-76baae13aa4c)
+Bookmark Page
+![bookmark twirlo](https://github.com/rkshaw20/Twirlo/assets/73245914/df34a353-5ae7-4daa-b1f0-21a2ec747538)
+
+User Profile Page
+![userProfile twirlo](https://github.com/rkshaw20/Twirlo/assets/73245914/ac0f2045-7dbc-4163-9269-367c1bdfa980)
+
+Third Person Profile Page
+![thirdPersonProfile](https://github.com/rkshaw20/Twirlo/assets/73245914/083f54c6-6330-4345-a914-59e92a33c49a)
+
+
+
