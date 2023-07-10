@@ -59,7 +59,12 @@ const Login = () => {
       });
       navigate('/');
     } catch (error) {
-      console.log(error);
+      setLoginLoader(false)
+      toast({
+        title: error.response.data.message ,
+        status: 'error',
+        duration: 3000,
+      });
     }
   };
 

@@ -49,8 +49,20 @@ const SignUp = () => {
     e.preventDefault();
     const { firstName, lastName, username, email, password, confirmPassword } =
       input;
+      if(password.length<6){
+        return toast({
+          title: 'Password length must be atleast 6 characters.',
+          status: 'error',
+          duration: 3000,
+        });
+        
+      }
     if (password !== confirmPassword) {
-      return;
+      return toast({
+        title: 'Password and Confirm Password are different.',
+        status: 'error',
+        duration: 3000,
+      });
     }
     try {
       setLoader(true);
