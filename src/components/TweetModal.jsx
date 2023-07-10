@@ -140,12 +140,13 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
             {uploadLoader && <Spinner />}
             {inputValue.imageUrl && (
               <Box h="5rem" w="8rem" position="relative">
-                <Image
+                {inputValue.imageUrl.includes('.mp4')? <video controls src={inputValue.imageUrl} /> : <Image
                   src={inputValue.imageUrl}
                   maxH="80px"
                   w="full"
                   objectFit="contain"
-                />
+                />}
+                
                 <Box>
                   <IconButton
                     icon={<CloseIcon />}
@@ -172,7 +173,7 @@ const TweetModal = ({ isOpen, onClose, post, isEdit }) => {
                   <Input
                     type="file"
                     display="none"
-                    accept="image/png, image/jpeg, image/jpg, video/*"
+                    accept="image/* , video/*"
                     onChange={handleImageInput}
                   />
                 </FormControl>

@@ -5,6 +5,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Container,
   Flex,
   Heading,
   IconButton,
@@ -136,10 +137,9 @@ const PostCard = ({
 
             <Box>
               <Heading size="sm">
-                {' '}
                 <Link
                   to={`/profile/${authorId}`}
-                >{`${firstName} ${lastName}`}</Link>{' '}
+                >{`${firstName} ${lastName}`}</Link>
               </Heading>
               <Text>@{username}</Text>
             </Box>
@@ -187,7 +187,11 @@ const PostCard = ({
         <Text>{content}</Text>
       </CardBody>
 
-      {imageUrl && (
+      {imageUrl && imageUrl.includes('.mp4') ? (
+        <Container ml="1.2rem"
+        mr="1.2rem"
+        rounded="2xl"><video controls src={imageUrl} /></Container>  
+      ) : (
         <Image
           ml="1.2rem"
           mr="1.2rem"
