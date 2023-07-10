@@ -33,10 +33,10 @@ const UserProfile = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { user, setUser, token } = useAuthContext();
-  const { userAllPost, allPost, dispatch, setLoader } =
-    useDataContext();
+  const { userAllPost, allPost, dispatch } = useDataContext();
   const [profile, setProfile] = useState({});
   const [followLoader, setFollowLoader] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const isAuthUser = userIdFromParam === user?._id;
 
@@ -80,7 +80,7 @@ const UserProfile = () => {
     likedBy.includes(userIdFromParam)
   );
 
-  if (!userAllPost.length) {
+  if (!userAllPost.length || loader ) {
     return <TwirloSpinner />;
   }
 
