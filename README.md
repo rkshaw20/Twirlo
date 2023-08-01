@@ -2,7 +2,7 @@
 
 Live Project: [https://twirlo.vercel.app/](https://twirlo.vercel.app/)
 
-- **Frontend:** HTML, CSS, JS, React
+- **Frontend:** ReactJs, ChakraUI
 - **Version Control:** Git and GitHub
 - **Hosting:** Vercel
 - **Code Editor and Tools:** VS Code, npm
