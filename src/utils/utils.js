@@ -21,7 +21,7 @@ export const getHumanizeTimeForOlderPost = (currentDate, date) => {
     const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
     if (daysDifference > 30) {
       const options = { day: 'numeric', month: 'long' };
-      const formattedDate = date.toLocaleDateString('en-US', options);
+      const formattedDate = pastDate.toLocaleDateString('en-US', options);
       return formattedDate;
     } else {
       return `${daysDifference}d`;
