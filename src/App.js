@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Home from './pages/Home';
-import RootLayout from './components/RootLayout';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-import Explore from './pages/Explore';
-import Bookmark from './pages/Bookmark';
-import UserProfile from './pages/UserProfile';
 import { RequireAuth } from './components/RequireAuth';
 import theme from './styles/theme';
 import Error from './pages/Error';
+import TwirloSpinner from './components/TwirloSpinner';
+
+const Home = lazy(() => import('./pages/Home'));
+const Explore = lazy(() => import('./pages/Explore'));
+const Bookmark = lazy(() => import('./pages/Bookmark'));
+const UserProfile = lazy(() => import('./pages/UserProfile'));
+const RootLayout = lazy(() => import('./components/RootLayout'));
 
 const router = createBrowserRouter([
   {
@@ -24,17 +26,47 @@ const router = createBrowserRouter([
   },
   {
     path: '/',
-    errorElement:<Error/>,
+    errorElement: <Error />,
     element: (
       <RequireAuth>
-        <RootLayout />
+        <Suspense fallback={<TwirloSpinner />}>
+          <RootLayout />
+        </Suspense>
       </RequireAuth>
     ),
     children: [
-      { index: true, element: <Home /> },
-      { path: '/explore', element: <Explore /> },
-      { path: '/bookmark', element: <Bookmark /> },
-      { path: '/profile/:userId', element: <UserProfile /> },
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<TwirloSpinner />}>
+            <Home />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/explore',
+        element: (
+          <Suspense fallback={<TwirloSpinner />}>
+            <Explore />{' '}
+          </Suspense>
+        ),
+      },
+      {
+        path: '/bookmark',
+        element: (
+          <Suspense fallback={<TwirloSpinner />}>
+            <Bookmark />{' '}
+          </Suspense>
+        ),
+      },
+      {
+        path: '/profile/:userId',
+        element: (
+          <Suspense fallback={<TwirloSpinner />}>
+            <UserProfile />{' '}
+          </Suspense>
+        ),
+      },
     ],
   },
 ]);
