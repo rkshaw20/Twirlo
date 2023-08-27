@@ -19,6 +19,7 @@ import { useDataContext } from '../contexts/DataContextProvider';
 import { useEffect, useRef, useState } from 'react';
 import { getAllPost, getAllUser } from '../services/DataServices';
 import SideBarUser from '../components/SideBarUser';
+import useBlur from '../hooks/useBlur';
 
 const Explore = () => {
   const { allPost, allUser, dispatch } = useDataContext();
@@ -26,6 +27,7 @@ const Explore = () => {
   const [inputValue, setInputValue] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialFocusRef = useRef(null);
+  useBlur(initialFocusRef,onClose)
 
   useEffect(() => {
     getAllUser(token, dispatch);
@@ -36,6 +38,7 @@ const Explore = () => {
     const value = e.target.value.toLowerCase();
     setInputValue(value);
   };
+
   const filteredList = allUser.filter(({ firstName, lastName, username }) => {
     const fullName = `${firstName} ${lastName}`;
     return (
@@ -66,7 +69,6 @@ const Explore = () => {
                   placeholder="search user"
                   value={inputValue}
                   onChange={handleSearch}
-                  onBlur={onClose}
                   onFocus={onOpen}
                 ></Input>
               </InputGroup>
